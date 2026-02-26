@@ -7,10 +7,17 @@ window.deleteItem = async (table, id) => {
     if (!confirm('Are you sure you want to delete this?')) return;
     
     const { error } = await _supabase.from(table).delete().eq('id', id);
-    if (error) alert('Error deleting!');
-    else {
+    if (error) {
+        alert('Error deleting: ' + error.message);
+    } else {
         alert('Deleted successfully!');
-        refreshAllLists();
+        // Refresh specific list based on table
+        if (table === 'memory_game') loadMemoryAdmin();
+        if (table === 'timeline') loadTimelineAdmin();
+        if (table === 'gallery') loadGalleryAdmin();
+        if (table === 'messages') loadMessagesAdmin();
+        if (table === 'quiz_questions') loadQuizAdmin();
+        if (table === 'bucket_list') loadBucketAdmin();
     }
 };
 
@@ -147,7 +154,34 @@ window.saveMessage = async () => {
 window.saveSettings = async () => {
     const code = document.getElementById('secret-code').value;
     if (code) {
-        alert('Secret code updated to: ' + code + '\nUpdate it in index.html line 42');
+        const { error } = await _supabase.from('settings').upsert([{ key: 'secret_code', value: code }]);
+        if (!error) {
+            alert('Secret code updated to: ' + code);
+        } else {
+            alert('Error: ' + error.message);
+        }
+    }
+};
+
+// --- Save Music Settings ---
+window.saveMusicSettings = async () => {
+    const updates = [];
+    for (let i = 0; i <= 6; i++) {
+        const input = document.getElementById(`music-${i}`);
+        if (input && input.value) {
+            updates.push({ key: `music_level_${i}`, value: input.value });
+        }
+    }
+    
+    if (updates.length > 0) {
+        const { error } = await _supabase.from('settings').upsert(updates);
+        if (!error) {
+            alert('Music settings saved successfully! 🎵');
+        } else {
+            alert('Error: ' + error.message);
+        }
+    } else {
+        alert('Please enter at least one music URL');
     }
 };
 
@@ -172,6 +206,61 @@ window.saveMemoryImg = async () => {
     }
 };
 
+// --- Save Quiz Question ---
+window.saveQuiz = async () => {
+    const data = {
+        question: document.getElementById('q-text').value,
+        option_a: document.getElementById('q-a').value,
+        option_b: document.getElementById('q-b').value,
+        option_c: document.getElementById('q-c').value,
+        correct_option: document.getElementById('q-correct').value
+    };
+    
+    if (!data.question || !data.option_a || !data.option_b || !data.option_c) {
+        return alert('Please fill all fields!');
+    }
+    
+    const { error } = await _supabase.from('quiz_questions').insert([data]);
+    if (!error) {
+        alert('Question Added!');
+        document.getElementById('q-text').value = '';
+        document.getElementById('q-a').value = '';
+        document.getElementById('q-b').value = '';
+        document.getElementById('q-c').value = '';
+        refreshAllLists();
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
+// --- Save Bucket List Item ---
+window.saveBucket = async () => {
+    const task = document.getElementById('bucket-task').value;
+    if (!task) return alert('Enter a task first!');
+    
+    const { error } = await _supabase.from('bucket_list').insert([{ task_name: task }]);
+    if (!error) {
+        alert('Added to Bucket List!');
+        document.getElementById('bucket-task').value = '';
+        refreshAllLists();
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
+// --- Save Gift Message ---
+window.saveGiftMsg = async () => {
+    const msg = document.getElementById('gift-msg').value;
+    if (!msg) return alert('Enter a message first!');
+    
+    const { error } = await _supabase.from('settings').upsert([{ key: 'gift_message', value: msg }]);
+    if (!error) {
+        alert('Gift message updated!');
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
 // --- Load Memory Game Images ---
 async function loadMemoryAdmin() {
     console.log('Loading memory game images...');
@@ -187,6 +276,62 @@ async function loadMemoryAdmin() {
                 <button class="del-btn" onclick="deleteItem('memory_game', ${img.id})">Delete</button>
             </div>
         `).join('');
+    }
+}
+
+// --- Load Music Settings ---
+async function loadMusicAdmin() {
+    const { data } = await _supabase.from('settings').select('*').like('key', 'music_level_%');
+    if (data) {
+        data.forEach(item => {
+            const levelNum = item.key.split('_')[2];
+            const input = document.getElementById(`music-${levelNum}`);
+            if (input) input.value = item.value || '';
+        });
+    }
+}
+
+// --- Load Settings ---
+async function loadSettingsAdmin() {
+    const { data } = await _supabase.from('settings').select('value').eq('key', 'secret_code').maybeSingle();
+    if (data) {
+        document.getElementById('secret-code').value = data.value || '1205';
+    }
+}
+
+// --- Load Quiz Questions ---
+async function loadQuizAdmin() {
+    const { data } = await _supabase.from('quiz_questions').select('*');
+    const list = document.getElementById('quiz-list');
+    if (data && list) {
+        list.innerHTML = data.map(item => `
+            <div class="admin-item">
+                <span style="flex:1; font-size:13px;">${item.question.substring(0, 30)}...</span>
+                <button class="del-btn" onclick="deleteItem('quiz_questions', ${item.id})">Delete</button>
+            </div>
+        `).join('');
+    }
+}
+
+// --- Load Bucket List ---
+async function loadBucketAdmin() {
+    const { data } = await _supabase.from('bucket_list').select('*');
+    const list = document.getElementById('bucket-list');
+    if (data && list) {
+        list.innerHTML = data.map(item => `
+            <div class="admin-item">
+                <span style="flex:1;">${item.task_name}</span>
+                <button class="del-btn" onclick="deleteItem('bucket_list', ${item.id})">Delete</button>
+            </div>
+        `).join('');
+    }
+}
+
+// --- Load Gift Message ---
+async function loadGiftAdmin() {
+    const { data } = await _supabase.from('settings').select('value').eq('key', 'gift_message').maybeSingle();
+    if (data) {
+        document.getElementById('gift-msg').value = data.value || '';
     }
 }
 
@@ -270,10 +415,15 @@ async function loadMessagesAdmin() {
 function refreshAllLists() {
     console.log('Refreshing all admin lists...');
     loadHeroAdmin();
+    loadQuizAdmin();
     loadTimelineAdmin();
     loadGalleryAdmin();
+    loadBucketAdmin();
     loadMessagesAdmin();
     loadMemoryAdmin();
+    loadGiftAdmin();
+    loadMusicAdmin();
+    loadSettingsAdmin();
 }
 
 // Load all data on page load

@@ -16,6 +16,8 @@ async function createBoard() {
         return;
     }
     
+    grid.innerHTML = '<p style="color:white;">Loading Cards...</p>';
+    
     let gameCards;
     
     try {
@@ -54,8 +56,8 @@ async function createBoard() {
         card.dataset.index = index;
         
         const content = item.image_url 
-            ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;" onerror="console.error('Image load failed:', this.src); this.parentElement.innerHTML='❌'">` 
-            : `<span style="font-size:3rem;">${item.emoji}</span>`;
+            ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;" onerror="this.parentElement.innerHTML='❌'">` 
+            : `<span style="font-size:2.5rem;">${item.emoji}</span>`;
         
         card.innerHTML = `
             <div class="card-inner">

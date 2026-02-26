@@ -72,12 +72,72 @@ CREATE TABLE IF NOT EXISTS memory_game (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- 6. Settings Table (for music and other configs)
+CREATE TABLE IF NOT EXISTS settings (
+    id SERIAL PRIMARY KEY,
+    key TEXT UNIQUE NOT NULL,
+    value TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Insert default music settings
+INSERT INTO settings (key, value) VALUES 
+('music_level_0', 'assets/music/romantic-track.mp3'),
+('music_level_1', 'assets/music/romantic-track.mp3'),
+('music_level_2', 'assets/music/romantic-track.mp3'),
+('music_level_3', 'assets/music/romantic-track.mp3'),
+('music_level_4', 'assets/music/romantic-track.mp3'),
+('music_level_5', 'assets/music/romantic-track.mp3'),
+('music_level_6', 'assets/music/romantic-track.mp3'),
+('music_level_7', 'assets/music/romantic-track.mp3'),
+('music_level_8', 'assets/music/romantic-track.mp3'),
+('music_level_9', 'assets/music/romantic-track.mp3'),
+('secret_code', '1205'),
+('gift_message', 'আলমারির ওপরের ড্রয়ারে তোমার আসল গিফটটা আছে! ❤️')
+ON CONFLICT (key) DO NOTHING;
+
+-- 7. Quiz Questions Table
+CREATE TABLE IF NOT EXISTS quiz_questions (
+    id SERIAL PRIMARY KEY,
+    question TEXT NOT NULL,
+    option_a TEXT NOT NULL,
+    option_b TEXT NOT NULL,
+    option_c TEXT NOT NULL,
+    correct_option TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Sample quiz questions
+INSERT INTO quiz_questions (question, option_a, option_b, option_c, correct_option) VALUES 
+('আমাদের প্রথম দেখা কোথায় হয়েছিল?', 'ক্যাফেতে', 'পার্কে', 'কলেজে', 'c'),
+('আমার প্রিয় রঙ কোনটি?', 'লাল', 'নীল', 'গোলাপী', 'b'),
+('আমরা প্রথম কোন মুভি একসাথে দেখেছিলাম?', 'রোমান্টিক', 'অ্যাকশন', 'কমেডি', 'a')
+ON CONFLICT DO NOTHING;
+
+-- 8. Bucket List Table
+CREATE TABLE IF NOT EXISTS bucket_list (
+    id SERIAL PRIMARY KEY,
+    task_name TEXT NOT NULL,
+    is_completed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Sample bucket list items
+INSERT INTO bucket_list (task_name, is_completed) VALUES 
+('প্যারিসে ঘুরতে যাওয়া', false),
+('একসাথে সূর্যোদয় দেখা', false),
+('একটি বাড়ি কেনা', false)
+ON CONFLICT DO NOTHING;
+
 -- Enable Row Level Security (Optional but recommended)
 ALTER TABLE hero_section ENABLE ROW LEVEL SECURITY;
 ALTER TABLE timeline ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gallery ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE memory_game ENABLE ROW LEVEL SECURITY;
+ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE quiz_questions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bucket_list ENABLE ROW LEVEL SECURITY;
 
 -- Create policies to allow public read access
 CREATE POLICY "Allow public read access" ON hero_section FOR SELECT USING (true);
@@ -85,6 +145,9 @@ CREATE POLICY "Allow public read access" ON timeline FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON gallery FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON messages FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON memory_game FOR SELECT USING (true);
+CREATE POLICY "Allow public read access" ON settings FOR SELECT USING (true);
+CREATE POLICY "Allow public read access" ON quiz_questions FOR SELECT USING (true);
+CREATE POLICY "Allow public read access" ON bucket_list FOR SELECT USING (true);
 
 -- Allow authenticated users to insert/update/delete
 CREATE POLICY "Allow authenticated insert" ON hero_section FOR INSERT TO authenticated USING (true);
@@ -97,3 +160,10 @@ CREATE POLICY "Allow authenticated delete" ON memory_game FOR DELETE TO authenti
 CREATE POLICY "Allow authenticated delete" ON timeline FOR DELETE TO authenticated USING (true);
 CREATE POLICY "Allow authenticated delete" ON gallery FOR DELETE TO authenticated USING (true);
 CREATE POLICY "Allow authenticated delete" ON messages FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated update" ON settings FOR UPDATE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON settings FOR INSERT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON quiz_questions FOR INSERT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated delete" ON quiz_questions FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON bucket_list FOR INSERT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated delete" ON bucket_list FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated update" ON bucket_list FOR UPDATE TO authenticated USING (true);

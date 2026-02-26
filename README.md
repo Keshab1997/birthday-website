@@ -6,12 +6,15 @@ A beautiful, interactive quest-based birthday website with admin panel.
 
 - 🔒 **Lock Screen** - Secret code to unlock
 - 🎨 **Hero Section** - Dynamic welcome message
+- 💕 **Love Quiz** - Test relationship knowledge
 - 🎮 **Memory Game** - Interactive card matching
 - 📅 **Timeline** - Journey of your relationship
 - 🖼️ **Gallery** - Photo memories
+- 🌟 **Bucket List** - Future dreams together
 - 💌 **Messages** - Love notes
+- 🎁 **Gift Box** - Virtual surprise reveal
 - 🎂 **Cake Cutting** - Interactive with confetti
-- 🎵 **Background Music** - Romantic atmosphere
+- 🎵 **Background Music** - Different music per level
 - 🔐 **Admin Panel** - Full content management
 
 ## 🚀 Quick Start
@@ -61,18 +64,24 @@ birthday-website/
     ├── 03-gallery/         # Gallery
     ├── 04-messages/        # Messages
     ├── 05-cake/            # Cake cutting
-    └── 06-memory-game/     # Memory game
+    ├── 06-memory-game/     # Memory game
+    ├── 07-quiz/            # Love quiz
+    ├── 08-bucket/          # Bucket list
+    └── 09-gift/            # Virtual gift box
 ```
 
 ## 🎯 Quest Flow
 
 1. Lock Screen (Secret Code)
 2. Hero Section (Welcome)
-3. Memory Game (Match Pairs)
-4. Timeline (Journey)
-5. Gallery (Photos)
-6. Messages (Love Notes)
-7. Cake Cutting (Finale)
+3. Love Quiz (Challenge 1)
+4. Memory Game (Challenge 2)
+5. Timeline (Journey)
+6. Gallery (Photos)
+7. Bucket List (Future Plans)
+8. Messages (Love Notes)
+9. Gift Box (Surprise)
+10. Cake Cutting (Finale)
 
 ## 💻 Technologies
 

@@ -1,0 +1,90 @@
+.bucket-section {
+    min-height: 100vh;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    text-align: center;
+}
+
+.bucket-section h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.bucket-section p {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.bucket-container {
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+.bucket-item {
+    background: white;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    animation: slideIn 0.5s ease;
+}
+
+.bucket-item input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.bucket-item span {
+    flex: 1;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.bucket-item input:checked + span {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.next-btn {
+    padding: 15px 40px;
+    background: white;
+    color: #f5576c;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.next-btn:hover {
+    transform: scale(1.1);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .bucket-section h2 {
+        font-size: 2rem;
+    }
+    
+    .bucket-item {
+        padding: 15px;
+    }
+}

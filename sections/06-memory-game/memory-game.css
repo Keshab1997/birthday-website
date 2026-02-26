@@ -33,13 +33,13 @@
     justify-content: center;
     margin: 0 auto;
     max-width: 500px;
+    perspective: 1000px;
 }
 
 .memory-card {
     width: 100px;
     height: 100px;
     cursor: pointer;
-    perspective: 1000px;
 }
 
 .card-inner {
@@ -70,10 +70,11 @@
     background: white;
     color: #f5576c;
     font-weight: bold;
+    border: 2px solid #f5576c;
 }
 
 .card-back {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: white;
     transform: rotateY(180deg);
 }
 

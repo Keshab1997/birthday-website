@@ -22,10 +22,14 @@
         <div class="sidebar">
             <h2>Admin Panel</h2>
             <button onclick="showTab('hero')">Hero Section</button>
+            <button onclick="showTab('quiz')">Love Quiz</button>
+            <button onclick="showTab('memory')">Memory Game</button>
             <button onclick="showTab('timeline')">Timeline</button>
             <button onclick="showTab('gallery')">Gallery</button>
+            <button onclick="showTab('bucket')">Bucket List</button>
             <button onclick="showTab('messages')">Love Messages</button>
-            <button onclick="showTab('memory')">Memory Game</button>
+            <button onclick="showTab('gift')">Gift Box</button>
+            <button onclick="showTab('music')">Music Settings</button>
             <button onclick="showTab('settings')">Settings</button>
             <button id="logout-btn" onclick="logout()">Logout</button>
         </div>
@@ -64,6 +68,16 @@
                 <button onclick="saveGallery()">Upload Photo</button>
             </div>
 
+            <!-- Bucket List Tab -->
+            <div id="tab-bucket" class="tab-content" style="display:none;">
+                <h3>🌟 Our Bucket List</h3>
+                <div id="bucket-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add New Dream</h4>
+                <input type="text" id="bucket-task" placeholder="Future Plan (e.g. Trip to Paris)">
+                <button onclick="saveBucket()">Add to List</button>
+            </div>
+
             <!-- Messages Tab -->
             <div id="tab-messages" class="tab-content" style="display:none;">
                 <h3>Love Messages</h3>
@@ -72,6 +86,24 @@
                 <h4>Add New Message</h4>
                 <textarea id="love-msg" placeholder="Why do you love her?"></textarea>
                 <button onclick="saveMessage()">Add Message</button>
+            </div>
+
+            <!-- Quiz Tab -->
+            <div id="tab-quiz" class="tab-content" style="display:none;">
+                <h3>💕 Love Quiz Questions</h3>
+                <div id="quiz-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add New Question</h4>
+                <input type="text" id="q-text" placeholder="Question">
+                <input type="text" id="q-a" placeholder="Option A">
+                <input type="text" id="q-b" placeholder="Option B">
+                <input type="text" id="q-c" placeholder="Option C">
+                <select id="q-correct">
+                    <option value="a">Option A is Correct</option>
+                    <option value="b">Option B is Correct</option>
+                    <option value="c">Option C is Correct</option>
+                </select>
+                <button onclick="saveQuiz()">Add Question</button>
             </div>
 
             <!-- Memory Game Tab -->
@@ -84,11 +116,48 @@
                 <button onclick="saveMemoryImg()">Upload Image</button>
             </div>
 
+            <!-- Gift Box Tab -->
+            <div id="tab-gift" class="tab-content" style="display:none;">
+                <h3>🎁 Gift Box Surprise Message</h3>
+                <p style="color:#666;">This message will appear when she opens the virtual gift box</p>
+                <textarea id="gift-msg" placeholder="Where is the real gift? (e.g., Check the drawer...)" rows="4"></textarea>
+                <button onclick="saveGiftMsg()">Save Message</button>
+            </div>
+
+            <!-- Music Tab -->
+            <div id="tab-music" class="tab-content" style="display:none;">
+                <h3>🎵 Section Music Settings</h3>
+                <p style="color:#666; margin-bottom:20px;">Enter direct MP3 URLs or local paths (e.g., assets/music/song.mp3)</p>
+                
+                <label>🔒 Lock Screen Music:</label>
+                <input type="text" id="music-0" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>👋 Hero Section Music:</label>
+                <input type="text" id="music-1" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>🎮 Memory Game Music:</label>
+                <input type="text" id="music-2" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>📅 Timeline Music:</label>
+                <input type="text" id="music-3" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>🖼️ Gallery Music:</label>
+                <input type="text" id="music-4" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>💌 Messages Music:</label>
+                <input type="text" id="music-5" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>🎂 Birthday Cake Music:</label>
+                <input type="text" id="music-6" placeholder="assets/music/romantic-track.mp3">
+                
+                <button onclick="saveMusicSettings()">💾 Save All Music</button>
+            </div>
+
             <!-- Settings Tab -->
             <div id="tab-settings" class="tab-content" style="display:none;">
                 <h3>Site Settings</h3>
                 <label>Secret Unlock Code:</label>
-                <input type="text" id="secret-code" placeholder="e.g., 1205" value="1205">
+                <input type="text" id="secret-code" placeholder="e.g., 1205">
                 <button onclick="saveSettings()">Save Settings</button>
             </div>
         </div>

@@ -18,6 +18,7 @@ window.deleteItem = async (table, id) => {
         if (table === 'messages') loadMessagesAdmin();
         if (table === 'quiz_questions') loadQuizAdmin();
         if (table === 'bucket_list') loadBucketAdmin();
+        if (table === 'balloon_messages') loadBalloonAdmin();
     }
 };
 
@@ -166,7 +167,7 @@ window.saveSettings = async () => {
 // --- Save Music Settings ---
 window.saveMusicSettings = async () => {
     const updates = [];
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= 10; i++) {
         const input = document.getElementById(`music-${i}`);
         if (input && input.value) {
             updates.push({ key: `music_level_${i}`, value: input.value });
@@ -261,6 +262,21 @@ window.saveGiftMsg = async () => {
     }
 };
 
+// --- Save Balloon Message ---
+window.saveBalloonMsg = async () => {
+    const msg = document.getElementById('b-msg').value;
+    if (!msg) return alert('Enter a message first!');
+    
+    const { error } = await _supabase.from('balloon_messages').insert([{ message: msg }]);
+    if (!error) {
+        alert('Balloon message added!');
+        document.getElementById('b-msg').value = '';
+        refreshAllLists();
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
 // --- Load Memory Game Images ---
 async function loadMemoryAdmin() {
     console.log('Loading memory game images...');
@@ -332,6 +348,20 @@ async function loadGiftAdmin() {
     const { data } = await _supabase.from('settings').select('value').eq('key', 'gift_message').maybeSingle();
     if (data) {
         document.getElementById('gift-msg').value = data.value || '';
+    }
+}
+
+// --- Load Balloon Messages ---
+async function loadBalloonAdmin() {
+    const { data } = await _supabase.from('balloon_messages').select('*');
+    const list = document.getElementById('balloon-msg-list');
+    if (data && list) {
+        list.innerHTML = data.map(item => `
+            <div class="admin-item">
+                <span style="flex:1;">${item.message}</span>
+                <button class="del-btn" onclick="deleteItem('balloon_messages', ${item.id})">Delete</button>
+            </div>
+        `).join('');
     }
 }
 
@@ -418,6 +448,7 @@ function refreshAllLists() {
     loadQuizAdmin();
     loadTimelineAdmin();
     loadGalleryAdmin();
+    loadBalloonAdmin();
     loadBucketAdmin();
     loadMessagesAdmin();
     loadMemoryAdmin();

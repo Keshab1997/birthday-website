@@ -92,6 +92,7 @@ INSERT INTO settings (key, value) VALUES
 ('music_level_7', 'assets/music/romantic-track.mp3'),
 ('music_level_8', 'assets/music/romantic-track.mp3'),
 ('music_level_9', 'assets/music/romantic-track.mp3'),
+('music_level_10', 'assets/music/romantic-track.mp3'),
 ('secret_code', '1205'),
 ('gift_message', 'আলমারির ওপরের ড্রয়ারে তোমার আসল গিফটটা আছে! ❤️')
 ON CONFLICT (key) DO NOTHING;
@@ -129,6 +130,25 @@ INSERT INTO bucket_list (task_name, is_completed) VALUES
 ('একটি বাড়ি কেনা', false)
 ON CONFLICT DO NOTHING;
 
+-- 9. Balloon Messages Table
+CREATE TABLE IF NOT EXISTS balloon_messages (
+    id SERIAL PRIMARY KEY,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Sample balloon messages
+INSERT INTO balloon_messages (message) VALUES 
+('I Love You! ❤️'),
+('You are my Sunshine ☀️'),
+('My Queen 👑'),
+('Always Yours 💍'),
+('You are Beautiful! ✨'),
+('Forever Together 💕'),
+('You Complete Me 🌟'),
+('My Everything 💖')
+ON CONFLICT DO NOTHING;
+
 -- Enable Row Level Security (Optional but recommended)
 ALTER TABLE hero_section ENABLE ROW LEVEL SECURITY;
 ALTER TABLE timeline ENABLE ROW LEVEL SECURITY;
@@ -138,6 +158,7 @@ ALTER TABLE memory_game ENABLE ROW LEVEL SECURITY;
 ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quiz_questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bucket_list ENABLE ROW LEVEL SECURITY;
+ALTER TABLE balloon_messages ENABLE ROW LEVEL SECURITY;
 
 -- Create policies to allow public read access
 CREATE POLICY "Allow public read access" ON hero_section FOR SELECT USING (true);
@@ -148,6 +169,7 @@ CREATE POLICY "Allow public read access" ON memory_game FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON settings FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON quiz_questions FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON bucket_list FOR SELECT USING (true);
+CREATE POLICY "Allow public read access" ON balloon_messages FOR SELECT USING (true);
 
 -- Allow authenticated users to insert/update/delete
 CREATE POLICY "Allow authenticated insert" ON hero_section FOR INSERT TO authenticated USING (true);
@@ -167,3 +189,5 @@ CREATE POLICY "Allow authenticated delete" ON quiz_questions FOR DELETE TO authe
 CREATE POLICY "Allow authenticated insert" ON bucket_list FOR INSERT TO authenticated USING (true);
 CREATE POLICY "Allow authenticated delete" ON bucket_list FOR DELETE TO authenticated USING (true);
 CREATE POLICY "Allow authenticated update" ON bucket_list FOR UPDATE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON balloon_messages FOR INSERT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated delete" ON balloon_messages FOR DELETE TO authenticated USING (true);

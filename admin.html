@@ -26,6 +26,7 @@
             <button onclick="showTab('memory')">Memory Game</button>
             <button onclick="showTab('timeline')">Timeline</button>
             <button onclick="showTab('gallery')">Gallery</button>
+            <button onclick="showTab('balloons')">Balloon Messages</button>
             <button onclick="showTab('bucket')">Bucket List</button>
             <button onclick="showTab('messages')">Love Messages</button>
             <button onclick="showTab('gift')">Gift Box</button>
@@ -66,6 +67,17 @@
                 <h4>Upload New Photo</h4>
                 <input type="file" id="gallery-img">
                 <button onclick="saveGallery()">Upload Photo</button>
+            </div>
+
+            <!-- Bucket List Tab -->
+            <div id="tab-balloons" class="tab-content" style="display:none;">
+                <h3>🎈 Balloon Pop Messages</h3>
+                <p style="color:#666;">Short messages that appear when balloons are popped</p>
+                <div id="balloon-msg-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add New Message</h4>
+                <input type="text" id="b-msg" placeholder="Short Love Message (e.g., I Love You!)">
+                <button onclick="saveBalloonMsg()">Add Message</button>
             </div>
 
             <!-- Bucket List Tab -->
@@ -144,11 +156,20 @@
                 <label>🖼️ Gallery Music:</label>
                 <input type="text" id="music-4" placeholder="assets/music/romantic-track.mp3">
                 
+                <label>🎈 Balloon Pop Music:</label>
+                <input type="text" id="music-6" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>🌟 Bucket List Music:</label>
+                <input type="text" id="music-7" placeholder="assets/music/romantic-track.mp3">
+                
                 <label>💌 Messages Music:</label>
-                <input type="text" id="music-5" placeholder="assets/music/romantic-track.mp3">
+                <input type="text" id="music-8" placeholder="assets/music/romantic-track.mp3">
+                
+                <label>🎁 Gift Box Music:</label>
+                <input type="text" id="music-9" placeholder="assets/music/romantic-track.mp3">
                 
                 <label>🎂 Birthday Cake Music:</label>
-                <input type="text" id="music-6" placeholder="assets/music/romantic-track.mp3">
+                <input type="text" id="music-10" placeholder="assets/music/romantic-track.mp3">
                 
                 <button onclick="saveMusicSettings()">💾 Save All Music</button>
             </div>

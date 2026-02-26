@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <!-- Supabase Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <!-- Level 0: Lock Screen -->
+    <div id="lock-screen"></div>
+
+    <!-- Level 1: Hero Section -->
+    <div id="hero-section" style="display:none;"></div>
+
+    <!-- Level 2: Memory Game -->
+    <div id="memory-game-section" style="display:none;"></div>
+
+    <!-- Level 3: Timeline -->
+    <div id="timeline-section" style="display:none;"></div>
+
+    <!-- Level 4: Gallery -->
+    <div id="gallery-section" style="display:none;"></div>
+
+    <!-- Level 5: Messages -->
+    <div id="messages-section" style="display:none;"></div>
+
+    <!-- Final Level: Cake -->
+    <div id="cake-section" style="display:none;"></div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="assets/music/romantic-track.mp3" type="audio/mpeg">
+    </audio>
+
+    <script type="module">
+        import { _supabase } from './assets/js/supabase-config.js';
+        
+        // Make Supabase available globally for memory game
+        window._supabase = _supabase;
+
+        // Global functions for level navigation
+        window.checkCode = function() {
+            const code = document.getElementById('secret-code').value;
+            if(code === '1205') {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('hero-section').style.display = 'block';
+                document.getElementById('hero-section').classList.add('fade-in');
+            } else {
+                alert('Wrong Code! Try again, Love. 💕');
+            }
+        };
+
+        window.unlockMemoryGame = function() {
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('memory-game-section').style.display = 'block';
+            document.getElementById('memory-game-section').classList.add('fade-in');
+        };
+
+        window.goToNextLevel = function() {
+            document.getElementById('memory-game-section').style.display = 'none';
+            document.getElementById('timeline-section').style.display = 'block';
+            document.getElementById('timeline-section').classList.add('fade-in');
+        };
+
+        window.unlockGallery = function() {
+            document.getElementById('timeline-section').style.display = 'none';
+            document.getElementById('gallery-section').style.display = 'block';
+            document.getElementById('gallery-section').classList.add('fade-in');
+        };
+
+        window.unlockMessages = function() {
+            document.getElementById('gallery-section').style.display = 'none';
+            document.getElementById('messages-section').style.display = 'block';
+            document.getElementById('messages-section').classList.add('fade-in');
+        };
+
+        window.unlockCake = function() {
+            document.getElementById('messages-section').style.display = 'none';
+            document.getElementById('cake-section').style.display = 'block';
+            document.getElementById('cake-section').classList.add('fade-in');
+        };
+
+        async function loadSection(id, path) {
+            try {
+                const response = await fetch(path);
+                const html = await response.text();
+                document.getElementById(id).innerHTML = html;
+                
+                // Load corresponding JS modules
+                if (id === 'hero-section') {
+                    import('./sections/01-hero/hero.js');
+                }
+                if (id === 'timeline-section') {
+                    import('./sections/02-timeline/timeline.js');
+                }
+                if (id === 'gallery-section') {
+                    import('./sections/03-gallery/gallery.js');
+                }
+                if (id === 'messages-section') {
+                    import('./sections/04-messages/messages.js');
+                }
+            } catch (err) {
+                console.error('Error loading section:', err);
+            }
+        }
+
+        // Load all sections on page load
+        window.onload = () => {
+            loadSection('lock-screen', 'sections/00-lock/lock.html');
+            loadSection('hero-section', 'sections/01-hero/hero.html');
+            loadSection('memory-game-section', 'sections/06-memory-game/memory-game.html');
+            loadSection('timeline-section', 'sections/02-timeline/timeline.html');
+            loadSection('gallery-section', 'sections/03-gallery/gallery.html');
+            loadSection('messages-section', 'sections/04-messages/messages.html');
+            loadSection('cake-section', 'sections/05-cake/cake.html');
+        };
+
+        // Start background music on first user interaction
+        document.body.addEventListener('click', () => {
+            const music = document.getElementById('bg-music');
+            if(music.paused) music.play();
+        }, { once: true });
+    </script>
+</body>
+</html>

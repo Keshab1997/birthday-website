@@ -1,0 +1,50 @@
+.messages-section { 
+    padding: 60px 20px; 
+    background: var(--soft-pink); 
+    text-align: center; 
+}
+
+.messages-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 20px; 
+}
+
+.message-card {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    width: 280px;
+    box-shadow: 0 10px 20px rgba(255, 117, 160, 0.2);
+    border-bottom: 5px solid var(--primary-pink);
+    font-style: italic;
+}
+
+.message-card p {
+    margin-bottom: 10px;
+}
+
+.message-card small {
+    color: var(--rose-gold);
+    font-weight: bold;
+}
+
+.next-btn {
+    display: block;
+    margin: 40px auto 0;
+    padding: 15px 40px;
+    background: var(--primary-pink);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.next-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(255, 117, 160, 0.4);
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Full Control</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="admin-panel/admin-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Login Section -->
+    <div id="login-container" class="admin-card">
+        <h2>Admin Login</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-btn">Login</button>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" style="display: none;">
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <button onclick="showTab('hero')">Hero Section</button>
+            <button onclick="showTab('timeline')">Timeline</button>
+            <button onclick="showTab('gallery')">Gallery</button>
+            <button onclick="showTab('messages')">Love Messages</button>
+            <button onclick="showTab('memory')">Memory Game</button>
+            <button onclick="showTab('settings')">Settings</button>
+            <button id="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="main-content">
+            <!-- Hero Tab -->
+            <div id="tab-hero" class="tab-content">
+                <h3>Update Hero Section</h3>
+                <div id="hero-current" class="current-preview"></div>
+                <input type="text" id="hero-title" placeholder="Main Title">
+                <input type="text" id="hero-sub" placeholder="Subtitle">
+                <input type="file" id="hero-img">
+                <button onclick="saveHero()">Save Hero</button>
+            </div>
+
+            <!-- Timeline Tab -->
+            <div id="tab-timeline" class="tab-content" style="display:none;">
+                <h3>Timeline Events</h3>
+                <div id="timeline-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add New Event</h4>
+                <input type="date" id="time-date">
+                <input type="text" id="time-title" placeholder="Event Title">
+                <textarea id="time-desc" placeholder="Description"></textarea>
+                <input type="file" id="time-img">
+                <button onclick="saveTimeline()">Add Event</button>
+            </div>
+
+            <!-- Gallery Tab -->
+            <div id="tab-gallery" class="tab-content" style="display:none;">
+                <h3>Gallery Photos</h3>
+                <div id="gallery-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Upload New Photo</h4>
+                <input type="file" id="gallery-img">
+                <button onclick="saveGallery()">Upload Photo</button>
+            </div>
+
+            <!-- Messages Tab -->
+            <div id="tab-messages" class="tab-content" style="display:none;">
+                <h3>Love Messages</h3>
+                <div id="messages-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add New Message</h4>
+                <textarea id="love-msg" placeholder="Why do you love her?"></textarea>
+                <button onclick="saveMessage()">Add Message</button>
+            </div>
+
+            <!-- Memory Game Tab -->
+            <div id="tab-memory" class="tab-content" style="display:none;">
+                <h3>Memory Game Images (Need 6)</h3>
+                <div id="memory-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Upload Game Image</h4>
+                <input type="file" id="memory-img">
+                <button onclick="saveMemoryImg()">Upload Image</button>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="tab-settings" class="tab-content" style="display:none;">
+                <h3>Site Settings</h3>
+                <label>Secret Unlock Code:</label>
+                <input type="text" id="secret-code" placeholder="e.g., 1205" value="1205">
+                <button onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="admin-panel/admin-script.js"></script>
+</body>
+</html>

@@ -1,5 +1,4 @@
 const emojis = ['❤️', '💕', '🌹', '💝', '🎂', '🎁'];
-const cards = [...emojis, ...emojis];
 let flippedCards = [];
 let matchedPairs = 0;
 let moves = 0;
@@ -9,41 +8,44 @@ function shuffle(array) {
 }
 
 async function createBoard() {
-    console.log('Creating memory game board...');
+    console.log('🎮 Creating memory game board...');
     const grid = document.getElementById('memory-grid');
     
-    // Try to load images from Supabase
+    if (!grid) {
+        console.error('❌ memory-grid element not found!');
+        return;
+    }
+    
     let gameCards;
     
     try {
-        console.log('Fetching images from Supabase...');
+        console.log('📡 Fetching images from Supabase...');
         const { data: images, error } = await window._supabase.from('memory_game').select('image_url').limit(6);
         
         if (error) {
-            console.error('Supabase error:', error);
+            console.error('❌ Supabase error:', error);
             throw error;
         }
         
-        console.log('Fetched images:', images);
+        console.log('📦 Fetched data:', images);
         
         if (images && images.length >= 6) {
-            // Use uploaded images
             gameCards = [...images, ...images];
-            console.log('✅ Using uploaded images:', images.length);
+            console.log('✅ Using', images.length, 'uploaded images');
         } else {
-            // Fallback to emojis
-            console.warn('⚠️ Using emojis, only found:', images?.length || 0, 'images (need 6)');
-            gameCards = cards.map(emoji => ({ emoji }));
+            console.warn('⚠️ Only found', images?.length || 0, 'images, need 6. Using emojis.');
+            gameCards = [...emojis, ...emojis].map(emoji => ({ emoji }));
         }
     } catch (error) {
         console.error('❌ Error loading images:', error);
-        console.log('Falling back to emojis');
-        gameCards = cards.map(emoji => ({ emoji }));
+        console.log('🔄 Falling back to emojis');
+        gameCards = [...emojis, ...emojis].map(emoji => ({ emoji }));
     }
     
     const shuffled = shuffle(gameCards);
-    console.log('Game cards prepared:', shuffled.length);
-    const shuffled = shuffle(gameCards);
+    console.log('🎲 Shuffled', shuffled.length, 'cards');
+    
+    grid.innerHTML = '';
     
     shuffled.forEach((item, index) => {
         const card = document.createElement('div');
@@ -52,8 +54,8 @@ async function createBoard() {
         card.dataset.index = index;
         
         const content = item.image_url 
-            ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;" onerror="this.parentElement.innerHTML='❌'">` 
-            : item.emoji;
+            ? `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;" onerror="console.error('Image load failed:', this.src); this.parentElement.innerHTML='❌'">` 
+            : `<span style="font-size:3rem;">${item.emoji}</span>`;
         
         card.innerHTML = `
             <div class="card-inner">
@@ -65,7 +67,7 @@ async function createBoard() {
         grid.appendChild(card);
     });
     
-    console.log('Memory game board created with', shuffled.length, 'cards');
+    console.log('✅ Memory game board created with', shuffled.length, 'cards');
 }
 
 function flipCard() {
@@ -108,12 +110,6 @@ function checkMatch() {
             card2.classList.remove('flipped');
             flippedCards = [];
         }, 1000);
-    }
-}
-
-function goToNextLevel() {
-    if (window.goToNextLevel) {
-        window.goToNextLevel();
     }
 }
 

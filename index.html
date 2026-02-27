@@ -68,6 +68,17 @@
         import { _supabase } from './assets/js/supabase-config.js';
         window._supabase = _supabase;
 
+        // Button click sound
+        const buttonClickSound = new Audio('assets/sounds/button-click.mp3');
+        
+        // Add click sound to all buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON' || e.target.classList.contains('next-btn') || e.target.classList.contains('skip-btn')) {
+                buttonClickSound.currentTime = 0;
+                buttonClickSound.play().catch(() => {});
+            }
+        });
+
         // Unified Level Controller
         window.goToLevel = function(levelNumber) {
             const levels = [

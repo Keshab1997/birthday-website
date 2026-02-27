@@ -61,214 +61,94 @@
 
     <script type="module">
         import { _supabase } from './assets/js/supabase-config.js';
-        
-        // Make Supabase available globally for memory game
         window._supabase = _supabase;
 
-        // Global Music Controller
+        // Unified Level Controller
+        window.goToLevel = function(levelNumber) {
+            const levels = [
+                'lock-screen', 'hero-section', 'quiz-section', 'memory-game-section', 
+                'timeline-section', 'gallery-section', 'balloon-section', 'scratch-section',
+                'wheel-section', 'az-section', 'bucket-section', 'messages-section', 
+                'gift-section', 'cake-section'
+            ];
+
+            document.querySelectorAll('body > div[id]').forEach(div => {
+                if(div.id !== 'bg-music') div.style.display = 'none';
+            });
+
+            const targetId = levels[levelNumber];
+            const targetEl = document.getElementById(targetId);
+            if(targetEl) {
+                targetEl.style.display = 'block';
+                targetEl.classList.add('fade-in');
+                window.scrollTo(0, 0);
+                playMusicForLevel(levelNumber);
+            }
+        };
+
+        // Music Controller
         async function playMusicForLevel(levelNumber) {
             const audio = document.getElementById('bg-music');
-            
             try {
-                const { data, error } = await _supabase
-                    .from('settings')
-                    .select('value')
-                    .eq('key', `music_level_${levelNumber}`)
-                    .single();
-
-                if (data && data.value) {
-                    const newSrc = data.value;
-                    if (!audio.src.endsWith(newSrc)) {
-                        audio.src = newSrc;
-                        audio.play().catch(err => console.log('Music autoplay blocked'));
-                    }
+                const { data } = await _supabase.from('settings').select('value').eq('key', `music_level_${levelNumber}`).maybeSingle();
+                if (data && data.value && !audio.src.includes(data.value)) {
+                    audio.src = data.value;
+                    audio.play().catch(() => console.log('Music blocked'));
                 }
             } catch (err) {
-                console.log('Music load error:', err);
+                console.log('Music error:', err);
             }
         }
 
-        // Global functions for level navigation
+        // Check Code Function
         window.checkCode = async function() {
             const code = document.getElementById('secret-code').value;
-            
-            // Check code from database
-            const { data } = await _supabase.from('settings').select('value').eq('key', 'secret_code').single();
+            const { data } = await _supabase.from('settings').select('value').eq('key', 'secret_code').maybeSingle();
             const correctCode = data?.value || '1205';
             
             if(code === correctCode) {
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('hero-section').style.display = 'block';
-                document.getElementById('hero-section').classList.add('fade-in');
-                playMusicForLevel(1);
+                goToLevel(1);
             } else {
                 alert('Wrong Code! Try again, Love. 💕');
             }
         };
 
-        window.unlockMemoryGame = function() {
-            document.getElementById('quiz-section').style.display = 'none';
-            document.getElementById('memory-game-section').style.display = 'block';
-            document.getElementById('memory-game-section').classList.add('fade-in');
-            playMusicForLevel(3);
-        };
-
-        window.goToNextLevel = function() {
-            document.getElementById('memory-game-section').style.display = 'none';
-            document.getElementById('timeline-section').style.display = 'block';
-            document.getElementById('timeline-section').classList.add('fade-in');
-            playMusicForLevel(4);
-        };
-
-        window.unlockGallery = function() {
-            document.getElementById('timeline-section').style.display = 'none';
-            document.getElementById('gallery-section').style.display = 'block';
-            document.getElementById('gallery-section').classList.add('fade-in');
-            playMusicForLevel(5);
-        };
-
-        window.unlockBalloon = function() {
-            document.getElementById('gallery-section').style.display = 'none';
-            document.getElementById('balloon-section').style.display = 'block';
-            document.getElementById('balloon-section').classList.add('fade-in');
-            playMusicForLevel(6);
-        };
-
-        window.unlockBucket = function() {
-            document.getElementById('balloon-section').style.display = 'none';
-            document.getElementById('scratch-section').style.display = 'block';
-            document.getElementById('scratch-section').classList.add('fade-in');
-            playMusicForLevel(7);
-        };
-
-        window.unlockWheel = function() {
-            document.getElementById('scratch-section').style.display = 'none';
-            document.getElementById('wheel-section').style.display = 'block';
-            document.getElementById('wheel-section').classList.add('fade-in');
-            playMusicForLevel(8);
-        };
-
-        window.unlockAZ = function() {
-            document.getElementById('wheel-section').style.display = 'none';
-            document.getElementById('az-section').style.display = 'block';
-            document.getElementById('az-section').classList.add('fade-in');
-            playMusicForLevel(9);
-        };
-
-        window.unlockMessages = function() {
-            document.getElementById('az-section').style.display = 'none';
-            document.getElementById('bucket-section').style.display = 'block';
-            document.getElementById('bucket-section').classList.add('fade-in');
-            playMusicForLevel(10);
-        };
-
-        window.unlockGift = function() {
-            document.getElementById('bucket-section').style.display = 'none';
-            document.getElementById('messages-section').style.display = 'block';
-            document.getElementById('messages-section').classList.add('fade-in');
-            playMusicForLevel(11);
-        };
-
-        window.unlockCake = function() {
-            document.getElementById('messages-section').style.display = 'none';
-            document.getElementById('gift-section').style.display = 'block';
-            document.getElementById('gift-section').classList.add('fade-in');
-            playMusicForLevel(12);
-        };
-
-        window.finalCake = function() {
-            document.getElementById('gift-section').style.display = 'none';
-            document.getElementById('cake-section').style.display = 'block';
-            document.getElementById('cake-section').classList.add('fade-in');
-            playMusicForLevel(13);
-        };
-
-        async function loadSection(id, path) {
+        // Section Loader
+        async function loadSection(id, path, scriptPath = null) {
             try {
                 const response = await fetch(path);
                 const html = await response.text();
                 document.getElementById(id).innerHTML = html;
                 
-                // Load corresponding JS modules
-                if (id === 'hero-section') {
-                    import('./sections/01-hero/hero.js');
-                }
-                if (id === 'quiz-section') {
+                if (scriptPath) {
                     const script = document.createElement('script');
-                    script.src = 'sections/07-quiz/quiz.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'memory-game-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/06-memory-game/memory-game.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'timeline-section') {
-                    import('./sections/02-timeline/timeline.js');
-                }
-                if (id === 'gallery-section') {
-                    import('./sections/03-gallery/gallery.js');
-                }
-                if (id === 'balloon-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/10-balloons/balloons.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'scratch-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/11-scratch/scratch.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'wheel-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/12-wheel/wheel.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'az-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/13-az/az.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'bucket-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/08-bucket/bucket.js';
-                    document.body.appendChild(script);
-                }
-                if (id === 'messages-section') {
-                    import('./sections/04-messages/messages.js');
-                }
-                if (id === 'gift-section') {
-                    const script = document.createElement('script');
-                    script.src = 'sections/09-gift/gift.js';
+                    script.src = scriptPath;
                     document.body.appendChild(script);
                 }
             } catch (err) {
-                console.error('Error loading section:', err);
+                console.error('Error loading:', id, err);
             }
         }
 
-        // Load all sections on page load
-        window.onload = () => {
-            loadSection('lock-screen', 'sections/00-lock/lock.html');
-            loadSection('hero-section', 'sections/01-hero/hero.html');
-            loadSection('quiz-section', 'sections/07-quiz/quiz.html');
-            loadSection('memory-game-section', 'sections/06-memory-game/memory-game.html');
-            loadSection('timeline-section', 'sections/02-timeline/timeline.html');
-            loadSection('gallery-section', 'sections/03-gallery/gallery.html');
-            loadSection('balloon-section', 'sections/10-balloons/balloons.html');
-            loadSection('scratch-section', 'sections/11-scratch/scratch.html');
-            loadSection('wheel-section', 'sections/12-wheel/wheel.html');
-            loadSection('az-section', 'sections/13-az/az.html');
-            loadSection('bucket-section', 'sections/08-bucket/bucket.html');
-            loadSection('messages-section', 'sections/04-messages/messages.html');
-            loadSection('gift-section', 'sections/09-gift/gift.html');
-            loadSection('cake-section', 'sections/05-cake/cake.html');
+        window.onload = async () => {
+            await loadSection('lock-screen', 'sections/00-lock/lock.html');
+            await loadSection('hero-section', 'sections/01-hero/hero.html');
+            await loadSection('quiz-section', 'sections/07-quiz/quiz.html', './sections/07-quiz/quiz.js');
+            await loadSection('memory-game-section', 'sections/06-memory-game/memory-game.html', './sections/06-memory-game/memory-game.js');
+            await loadSection('timeline-section', 'sections/02-timeline/timeline.html');
+            await loadSection('gallery-section', 'sections/03-gallery/gallery.html');
+            await loadSection('balloon-section', 'sections/10-balloons/balloons.html', './sections/10-balloons/balloons.js');
+            await loadSection('scratch-section', 'sections/11-scratch/scratch.html', './sections/11-scratch/scratch.js');
+            await loadSection('wheel-section', 'sections/12-wheel/wheel.html', './sections/12-wheel/wheel.js');
+            await loadSection('az-section', 'sections/13-az/az.html', './sections/13-az/az.js');
+            await loadSection('bucket-section', 'sections/08-bucket/bucket.html', './sections/08-bucket/bucket.js');
+            await loadSection('messages-section', 'sections/04-messages/messages.html');
+            await loadSection('gift-section', 'sections/09-gift/gift.html', './sections/09-gift/gift.js');
+            await loadSection('cake-section', 'sections/05-cake/cake.html');
             
-            // Start with lock screen music
-            playMusicForLevel(0);
+            goToLevel(0);
         };
 
-        // Start background music on first user interaction
         document.body.addEventListener('click', () => {
             const music = document.getElementById('bg-music');
             if(music.paused) music.play();

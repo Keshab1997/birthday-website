@@ -44,7 +44,7 @@ window.checkAnswer = (selected, correct) => {
                 <div class="quiz-card fade-in">
                     <h3>🎉 Perfect Score!</h3>
                     <p>You know us so well! ❤️</p>
-                    <button onclick="unlockMemoryGame()">Continue to Memory Game</button>
+                    <button onclick="goToLevel(3)">Continue to Memory Game</button>
                 </div>
             `;
         }

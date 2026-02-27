@@ -33,16 +33,25 @@
     <!-- Level 6: Balloon Pop -->
     <div id="balloon-section" style="display:none;"></div>
 
-    <!-- Level 7: Bucket List -->
+    <!-- Level 7: Scratch Card -->
+    <div id="scratch-section" style="display:none;"></div>
+
+    <!-- Level 8: Spin Wheel -->
+    <div id="wheel-section" style="display:none;"></div>
+
+    <!-- Level 9: A-Z Love -->
+    <div id="az-section" style="display:none;"></div>
+
+    <!-- Level 10: Bucket List -->
     <div id="bucket-section" style="display:none;"></div>
 
-    <!-- Level 7: Messages -->
+    <!-- Level 11: Messages -->
     <div id="messages-section" style="display:none;"></div>
 
-    <!-- Level 8: Virtual Gift -->
+    <!-- Level 12: Virtual Gift -->
     <div id="gift-section" style="display:none;"></div>
 
-    <!-- Level 9: Cake -->
+    <!-- Level 13: Cake -->
     <div id="cake-section" style="display:none;"></div>
 
     <!-- Background Music -->
@@ -127,30 +136,51 @@
 
         window.unlockBucket = function() {
             document.getElementById('balloon-section').style.display = 'none';
-            document.getElementById('bucket-section').style.display = 'block';
-            document.getElementById('bucket-section').classList.add('fade-in');
+            document.getElementById('scratch-section').style.display = 'block';
+            document.getElementById('scratch-section').classList.add('fade-in');
             playMusicForLevel(7);
         };
 
-        window.unlockMessages = function() {
-            document.getElementById('bucket-section').style.display = 'none';
-            document.getElementById('messages-section').style.display = 'block';
-            document.getElementById('messages-section').classList.add('fade-in');
+        window.unlockWheel = function() {
+            document.getElementById('scratch-section').style.display = 'none';
+            document.getElementById('wheel-section').style.display = 'block';
+            document.getElementById('wheel-section').classList.add('fade-in');
             playMusicForLevel(8);
         };
 
-        window.unlockGift = function() {
-            document.getElementById('messages-section').style.display = 'none';
-            document.getElementById('gift-section').style.display = 'block';
-            document.getElementById('gift-section').classList.add('fade-in');
+        window.unlockAZ = function() {
+            document.getElementById('wheel-section').style.display = 'none';
+            document.getElementById('az-section').style.display = 'block';
+            document.getElementById('az-section').classList.add('fade-in');
             playMusicForLevel(9);
         };
 
+        window.unlockMessages = function() {
+            document.getElementById('az-section').style.display = 'none';
+            document.getElementById('bucket-section').style.display = 'block';
+            document.getElementById('bucket-section').classList.add('fade-in');
+            playMusicForLevel(10);
+        };
+
+        window.unlockGift = function() {
+            document.getElementById('bucket-section').style.display = 'none';
+            document.getElementById('messages-section').style.display = 'block';
+            document.getElementById('messages-section').classList.add('fade-in');
+            playMusicForLevel(11);
+        };
+
         window.unlockCake = function() {
+            document.getElementById('messages-section').style.display = 'none';
+            document.getElementById('gift-section').style.display = 'block';
+            document.getElementById('gift-section').classList.add('fade-in');
+            playMusicForLevel(12);
+        };
+
+        window.finalCake = function() {
             document.getElementById('gift-section').style.display = 'none';
             document.getElementById('cake-section').style.display = 'block';
             document.getElementById('cake-section').classList.add('fade-in');
-            playMusicForLevel(10);
+            playMusicForLevel(13);
         };
 
         async function loadSection(id, path) {
@@ -184,6 +214,21 @@
                     script.src = 'sections/10-balloons/balloons.js';
                     document.body.appendChild(script);
                 }
+                if (id === 'scratch-section') {
+                    const script = document.createElement('script');
+                    script.src = 'sections/11-scratch/scratch.js';
+                    document.body.appendChild(script);
+                }
+                if (id === 'wheel-section') {
+                    const script = document.createElement('script');
+                    script.src = 'sections/12-wheel/wheel.js';
+                    document.body.appendChild(script);
+                }
+                if (id === 'az-section') {
+                    const script = document.createElement('script');
+                    script.src = 'sections/13-az/az.js';
+                    document.body.appendChild(script);
+                }
                 if (id === 'bucket-section') {
                     const script = document.createElement('script');
                     script.src = 'sections/08-bucket/bucket.js';
@@ -211,6 +256,9 @@
             loadSection('timeline-section', 'sections/02-timeline/timeline.html');
             loadSection('gallery-section', 'sections/03-gallery/gallery.html');
             loadSection('balloon-section', 'sections/10-balloons/balloons.html');
+            loadSection('scratch-section', 'sections/11-scratch/scratch.html');
+            loadSection('wheel-section', 'sections/12-wheel/wheel.html');
+            loadSection('az-section', 'sections/13-az/az.html');
             loadSection('bucket-section', 'sections/08-bucket/bucket.html');
             loadSection('messages-section', 'sections/04-messages/messages.html');
             loadSection('gift-section', 'sections/09-gift/gift.html');

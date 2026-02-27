@@ -27,6 +27,9 @@
             <button onclick="showTab('timeline')">Timeline</button>
             <button onclick="showTab('gallery')">Gallery</button>
             <button onclick="showTab('balloons')">Balloon Messages</button>
+            <button onclick="showTab('scratch')">Scratch Card</button>
+            <button onclick="showTab('wheel')">Spin Wheel</button>
+            <button onclick="showTab('az')">A-Z Love</button>
             <button onclick="showTab('bucket')">Bucket List</button>
             <button onclick="showTab('messages')">Love Messages</button>
             <button onclick="showTab('gift')">Gift Box</button>
@@ -78,6 +81,64 @@
                 <h4>Add New Message</h4>
                 <input type="text" id="b-msg" placeholder="Short Love Message (e.g., I Love You!)">
                 <button onclick="saveBalloonMsg()">Add Message</button>
+            </div>
+
+            <!-- Scratch Card Tab -->
+            <div id="tab-scratch" class="tab-content" style="display:none;">
+                <h3>🎫 Scratch Card Settings</h3>
+                <p style="color:#666;">Image that appears when scratch card is revealed</p>
+                <label>Scratch Card Image URL:</label>
+                <input type="text" id="scratch-img-url" placeholder="https://imgbb.com/your-image">
+                <button onclick="saveScratchImg()">Save Image</button>
+            </div>
+
+            <!-- Spin Wheel Tab -->
+            <div id="tab-wheel" class="tab-content" style="display:none;">
+                <h3>🎰 Spin Wheel Options</h3>
+                <div id="wheel-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add New Option</h4>
+                <input type="text" id="wheel-option" placeholder="e.g., Dinner Date">
+                <button onclick="saveWheelOption()">Add Option</button>
+            </div>
+
+            <!-- A-Z Love Tab -->
+            <div id="tab-az" class="tab-content" style="display:none;">
+                <h3>💕 A to Z of You</h3>
+                <p style="color:#666;">Add qualities for each letter (A-Z)</p>
+                <div id="az-list" class="admin-list-grid"></div>
+                <hr>
+                <h4>Add/Update Letter</h4>
+                <select id="az-letter">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="H">H</option>
+                    <option value="I">I</option>
+                    <option value="J">J</option>
+                    <option value="K">K</option>
+                    <option value="L">L</option>
+                    <option value="M">M</option>
+                    <option value="N">N</option>
+                    <option value="O">O</option>
+                    <option value="P">P</option>
+                    <option value="Q">Q</option>
+                    <option value="R">R</option>
+                    <option value="S">S</option>
+                    <option value="T">T</option>
+                    <option value="U">U</option>
+                    <option value="V">V</option>
+                    <option value="W">W</option>
+                    <option value="X">X</option>
+                    <option value="Y">Y</option>
+                    <option value="Z">Z</option>
+                </select>
+                <input type="text" id="az-quality" placeholder="Quality (e.g., Adorable)">
+                <button onclick="saveAZ()">Save Letter</button>
             </div>
 
             <!-- Bucket List Tab -->

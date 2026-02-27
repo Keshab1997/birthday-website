@@ -94,7 +94,8 @@ INSERT INTO settings (key, value) VALUES
 ('music_level_9', 'assets/music/romantic-track.mp3'),
 ('music_level_10', 'assets/music/romantic-track.mp3'),
 ('secret_code', '1205'),
-('gift_message', 'আলমারির ওপরের ড্রয়ারে তোমার আসল গিফটটা আছে! ❤️')
+('gift_message', 'আলমারির ওপরের ড্রয়ারে তোমার আসল গিফটটা আছে! ❤️'),
+('scratch_image', 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800')
 ON CONFLICT (key) DO NOTHING;
 
 -- 7. Quiz Questions Table
@@ -149,6 +150,39 @@ INSERT INTO balloon_messages (message) VALUES
 ('My Everything 💖')
 ON CONFLICT DO NOTHING;
 
+-- 10. Wheel Options Table
+CREATE TABLE IF NOT EXISTS wheel_options (
+    id SERIAL PRIMARY KEY,
+    option_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Sample wheel options
+INSERT INTO wheel_options (option_text) VALUES 
+('Candle Light Dinner 🕯️'),
+('Movie Night 🎬'),
+('Shopping Spree 🛍️'),
+('Long Drive 🚗'),
+('Surprise Gift 🎁'),
+('Beach Day 🏖️')
+ON CONFLICT DO NOTHING;
+
+-- 11. A-Z Love Table
+CREATE TABLE IF NOT EXISTS az_love (
+    letter CHAR(1) PRIMARY KEY,
+    quality TEXT NOT NULL
+);
+
+-- Sample A-Z qualities
+INSERT INTO az_love (letter, quality) VALUES 
+('A', 'Adorable'),
+('B', 'Beautiful'),
+('C', 'Caring'),
+('D', 'Dazzling'),
+('E', 'Elegant'),
+('F', 'Fabulous')
+ON CONFLICT (letter) DO NOTHING;
+
 -- Enable Row Level Security (Optional but recommended)
 ALTER TABLE hero_section ENABLE ROW LEVEL SECURITY;
 ALTER TABLE timeline ENABLE ROW LEVEL SECURITY;
@@ -159,6 +193,8 @@ ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quiz_questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bucket_list ENABLE ROW LEVEL SECURITY;
 ALTER TABLE balloon_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wheel_options ENABLE ROW LEVEL SECURITY;
+ALTER TABLE az_love ENABLE ROW LEVEL SECURITY;
 
 -- Create policies to allow public read access
 CREATE POLICY "Allow public read access" ON hero_section FOR SELECT USING (true);
@@ -170,6 +206,8 @@ CREATE POLICY "Allow public read access" ON settings FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON quiz_questions FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON bucket_list FOR SELECT USING (true);
 CREATE POLICY "Allow public read access" ON balloon_messages FOR SELECT USING (true);
+CREATE POLICY "Allow public read access" ON wheel_options FOR SELECT USING (true);
+CREATE POLICY "Allow public read access" ON az_love FOR SELECT USING (true);
 
 -- Allow authenticated users to insert/update/delete
 CREATE POLICY "Allow authenticated insert" ON hero_section FOR INSERT TO authenticated USING (true);
@@ -191,3 +229,7 @@ CREATE POLICY "Allow authenticated delete" ON bucket_list FOR DELETE TO authenti
 CREATE POLICY "Allow authenticated update" ON bucket_list FOR UPDATE TO authenticated USING (true);
 CREATE POLICY "Allow authenticated insert" ON balloon_messages FOR INSERT TO authenticated USING (true);
 CREATE POLICY "Allow authenticated delete" ON balloon_messages FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON wheel_options FOR INSERT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated delete" ON wheel_options FOR DELETE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON az_love FOR INSERT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated update" ON az_love FOR UPDATE TO authenticated USING (true);

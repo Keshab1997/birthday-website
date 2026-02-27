@@ -19,6 +19,7 @@ window.deleteItem = async (table, id) => {
         if (table === 'quiz_questions') loadQuizAdmin();
         if (table === 'bucket_list') loadBucketAdmin();
         if (table === 'balloon_messages') loadBalloonAdmin();
+        if (table === 'wheel_options') loadWheelAdmin();
     }
 };
 
@@ -277,6 +278,50 @@ window.saveBalloonMsg = async () => {
     }
 };
 
+// --- Save Scratch Card Image ---
+window.saveScratchImg = async () => {
+    const url = document.getElementById('scratch-img-url').value;
+    if (!url) return alert('Enter image URL first!');
+    
+    const { error } = await _supabase.from('settings').upsert([{ key: 'scratch_image', value: url }]);
+    if (!error) {
+        alert('Scratch card image updated!');
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
+// --- Save Wheel Option ---
+window.saveWheelOption = async () => {
+    const option = document.getElementById('wheel-option').value;
+    if (!option) return alert('Enter an option first!');
+    
+    const { error } = await _supabase.from('wheel_options').insert([{ option_text: option }]);
+    if (!error) {
+        alert('Wheel option added!');
+        document.getElementById('wheel-option').value = '';
+        refreshAllLists();
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
+// --- Save A-Z Entry ---
+window.saveAZ = async () => {
+    const letter = document.getElementById('az-letter').value;
+    const quality = document.getElementById('az-quality').value;
+    if (!quality) return alert('Enter a quality first!');
+    
+    const { error } = await _supabase.from('az_love').upsert([{ letter, quality }]);
+    if (!error) {
+        alert('A-Z entry saved!');
+        document.getElementById('az-quality').value = '';
+        refreshAllLists();
+    } else {
+        alert('Error: ' + error.message);
+    }
+};
+
 // --- Load Memory Game Images ---
 async function loadMemoryAdmin() {
     console.log('Loading memory game images...');
@@ -360,6 +405,41 @@ async function loadBalloonAdmin() {
             <div class="admin-item">
                 <span style="flex:1;">${item.message}</span>
                 <button class="del-btn" onclick="deleteItem('balloon_messages', ${item.id})">Delete</button>
+            </div>
+        `).join('');
+    }
+}
+
+// --- Load Scratch Card Settings ---
+async function loadScratchAdmin() {
+    const { data } = await _supabase.from('settings').select('value').eq('key', 'scratch_image').maybeSingle();
+    if (data) {
+        document.getElementById('scratch-img-url').value = data.value || '';
+    }
+}
+
+// --- Load Wheel Options ---
+async function loadWheelAdmin() {
+    const { data } = await _supabase.from('wheel_options').select('*');
+    const list = document.getElementById('wheel-list');
+    if (data && list) {
+        list.innerHTML = data.map(item => `
+            <div class="admin-item">
+                <span style="flex:1;">${item.option_text}</span>
+                <button class="del-btn" onclick="deleteItem('wheel_options', ${item.id})">Delete</button>
+            </div>
+        `).join('');
+    }
+}
+
+// --- Load A-Z Entries ---
+async function loadAZAdmin() {
+    const { data } = await _supabase.from('az_love').select('*').order('letter', { ascending: true });
+    const list = document.getElementById('az-list');
+    if (data && list) {
+        list.innerHTML = data.map(item => `
+            <div class="admin-item">
+                <span style="flex:1;"><strong>${item.letter}</strong> - ${item.quality}</span>
             </div>
         `).join('');
     }
@@ -449,6 +529,9 @@ function refreshAllLists() {
     loadTimelineAdmin();
     loadGalleryAdmin();
     loadBalloonAdmin();
+    loadScratchAdmin();
+    loadWheelAdmin();
+    loadAZAdmin();
     loadBucketAdmin();
     loadMessagesAdmin();
     loadMemoryAdmin();

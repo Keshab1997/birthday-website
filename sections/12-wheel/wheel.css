@@ -1,0 +1,92 @@
+.wheel-section {
+    min-height: 100vh;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wheel-section h2 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.wheel-section p {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.wheel-wrapper {
+    position: relative;
+    margin: 30px 0;
+}
+
+.pointer {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: #ff4081;
+    z-index: 10;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+#wheel-canvas {
+    border-radius: 50%;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+#spin-btn {
+    padding: 15px 50px;
+    background: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#spin-btn:hover {
+    transform: scale(1.1);
+}
+
+#spin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#wheel-result {
+    color: white;
+    font-size: 2rem;
+    margin-top: 30px;
+    min-height: 60px;
+}
+
+#next-from-wheel {
+    padding: 15px 40px;
+    background: white;
+    color: #667eea;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    #wheel-canvas {
+        width: 300px;
+        height: 300px;
+    }
+}

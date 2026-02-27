@@ -1,25 +1,42 @@
-import { _supabase } from '../../assets/js/supabase-config.js';
-
 async function fetchHeroData() {
-    const { data, error } = await _supabase
-        .from('hero_section')
-        .select('*')
-        .limit(1)
-        .maybeSingle();
+    console.log('🎯 Hero: Starting fetch...');
+    
+    if (!window._supabase) {
+        console.warn('⚠️ Hero: Supabase not loaded, retrying...');
+        setTimeout(fetchHeroData, 500);
+        return;
+    }
+    
+    console.log('✅ Hero: Supabase loaded');
 
-    if (data) {
+    try {
+        const { data, error } = await window._supabase
+            .from('hero_section')
+            .select('*')
+            .limit(1)
+            .maybeSingle();
+
+        console.log('📦 Hero: Data received:', data);
+        console.log('❌ Hero: Error:', error);
+
         const titleEl = document.getElementById('hero-title');
         const subEl = document.getElementById('hero-subtitle');
         const bgEl = document.getElementById('hero-bg');
 
-        if(titleEl) titleEl.innerText = data.title;
-        if(subEl) subEl.innerText = data.subtitle;
-        if(bgEl && data.image_url) bgEl.style.backgroundImage = `url('${data.image_url}')`;
-    } else {
-        console.log('No data found in Supabase');
+        if (data) {
+            if(titleEl) titleEl.innerText = data.title;
+            if(subEl) subEl.innerText = data.subtitle;
+            if(bgEl && data.image_url) bgEl.style.backgroundImage = `url('${data.image_url}')`;
+            console.log('✅ Hero: Data loaded successfully');
+        } else {
+            if(titleEl) titleEl.innerText = 'Happy Birthday! 🎂';
+            if(subEl) subEl.innerText = 'আজকের দিনটি শুধু তোমার জন্য';
+            console.log('⚠️ Hero: No data in table, using default');
+        }
+    } catch (err) {
+        console.error('❌ Hero: Fetch error:', err);
+        document.getElementById('hero-title').innerText = 'Happy Birthday! 🎂';
     }
-
-    if (error) console.error('Hero fetch error:', error);
 }
 
 fetchHeroData();

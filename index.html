@@ -11,6 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="heart-loader"></div>
+        <p style="color: #ff4081; margin-top: 20px; font-size: 18px;">Loading Love... 💕</p>
+    </div>
 
     <!-- Level 0: Lock Screen -->
     <div id="lock-screen"></div>
@@ -132,11 +137,11 @@
 
         window.onload = async () => {
             await loadSection('lock-screen', 'sections/00-lock/lock.html');
-            await loadSection('hero-section', 'sections/01-hero/hero.html');
+            await loadSection('hero-section', 'sections/01-hero/hero.html', './sections/01-hero/hero.js');
             await loadSection('quiz-section', 'sections/07-quiz/quiz.html', './sections/07-quiz/quiz.js');
             await loadSection('memory-game-section', 'sections/06-memory-game/memory-game.html', './sections/06-memory-game/memory-game.js');
-            await loadSection('timeline-section', 'sections/02-timeline/timeline.html');
-            await loadSection('gallery-section', 'sections/03-gallery/gallery.html');
+            await loadSection('timeline-section', 'sections/02-timeline/timeline.html', './sections/02-timeline/timeline.js');
+            await loadSection('gallery-section', 'sections/03-gallery/gallery.html', './sections/03-gallery/gallery.js');
             await loadSection('balloon-section', 'sections/10-balloons/balloons.html', './sections/10-balloons/balloons.js');
             await loadSection('scratch-section', 'sections/11-scratch/scratch.html', './sections/11-scratch/scratch.js');
             await loadSection('wheel-section', 'sections/12-wheel/wheel.html', './sections/12-wheel/wheel.js');
@@ -146,6 +151,7 @@
             await loadSection('gift-section', 'sections/09-gift/gift.html', './sections/09-gift/gift.js');
             await loadSection('cake-section', 'sections/05-cake/cake.html');
             
+            document.getElementById('preloader').style.display = 'none';
             goToLevel(0);
         };
 

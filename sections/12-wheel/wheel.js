@@ -12,6 +12,14 @@ async function initWheel() {
 function drawWheel() {
     const canvas = document.getElementById('wheel-canvas');
     const ctx = canvas.getContext('2d');
+    
+    // Dynamic sizing for mobile
+    const size = Math.min(window.innerWidth - 40, 400);
+    canvas.width = size;
+    canvas.height = size;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const radius = canvas.width / 2 - 10;
@@ -36,7 +44,7 @@ function drawWheel() {
         ctx.rotate(startAngle + sliceAngle / 2);
         ctx.textAlign = 'center';
         ctx.fillStyle = 'white';
-        ctx.font = 'bold 16px Arial';
+        ctx.font = `bold ${Math.floor(size / 25)}px Arial`;
         ctx.fillText(option, radius / 2, 5);
         ctx.restore();
     });

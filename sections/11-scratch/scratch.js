@@ -7,13 +7,17 @@ async function initScratch() {
     const ctx = canvas.getContext('2d');
     const container = canvas.parentElement;
     
-    canvas.width = container.offsetWidth;
-    canvas.height = container.offsetHeight;
+    // Dynamic sizing for mobile
+    const size = Math.min(window.innerWidth - 40, 400);
+    canvas.width = size;
+    canvas.height = size;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
 
     // Silver scratch layer
     ctx.fillStyle = '#C0C0C0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '30px Arial';
+    ctx.font = Math.floor(size / 13) + 'px Arial';
     ctx.fillStyle = '#666';
     ctx.textAlign = 'center';
     ctx.fillText('Scratch Here!', canvas.width / 2, canvas.height / 2);

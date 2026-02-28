@@ -1,14 +1,17 @@
 .memory-game-section {
     min-height: 100vh;
-    padding: 50px 20px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .memory-game-section h2 {
     color: white;
     font-size: 2.5rem;
     margin-bottom: 10px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
 }
 
 .memory-game-section p {
@@ -18,11 +21,14 @@
 }
 
 .score-board {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 30px;
+    border-radius: 50px;
     margin-bottom: 30px;
     color: white;
+    backdrop-filter: blur(5px);
+    display: flex;
+    gap: 30px;
     font-size: 1.2rem;
 }
 
@@ -30,9 +36,12 @@
     display: grid;
     grid-template-columns: repeat(4, 100px);
     gap: 15px;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
     perspective: 1000px;
 }
 
@@ -68,16 +77,18 @@
 }
 
 .card-front {
-    background: #ffffff;
-    color: #f5576c;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white !important;
     font-size: 2rem;
     font-weight: bold;
-    border: 2px solid #f5576c;
     z-index: 2;
 }
 
 .card-back {
-    background: white;
+    background: white !important;
+    border: 2px solid #ff75a0;
     transform: rotateY(180deg);
     z-index: 1;
     overflow: hidden;
@@ -114,7 +125,7 @@
     margin-top: 30px;
     padding: 15px 40px;
     background: white;
-    color: #f5576c;
+    color: #764ba2;
     border: none;
     border-radius: 50px;
     font-size: 1.2rem;
@@ -135,5 +146,19 @@
     .memory-card {
         width: 80px;
         height: 80px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .memory-grid {
+        grid-template-columns: repeat(4, 150px);
+        gap: 25px;
+    }
+    .memory-card {
+        width: 150px;
+        height: 150px;
+    }
+    .memory-game-section h2 {
+        font-size: 3.5rem;
     }
 }

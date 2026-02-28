@@ -1,7 +1,5 @@
-import { _supabase } from '../../assets/js/supabase-config.js';
-
 async function loadMessages() {
-    const { data, error } = await _supabase.from('messages').select('*');
+    const { data, error } = await window._supabase.from('messages').select('*');
     const container = document.getElementById('messages-container');
     
     if (error) {
@@ -11,16 +9,16 @@ async function loadMessages() {
 
     if (data && data.length > 0) {
         container.innerHTML = '';
-        data.forEach(item => {
+        data.forEach((item, index) => {
             container.innerHTML += `
-                <div class="message-card">
+                <div class="message-card" style="animation-delay: ${index * 0.2}s;">
                     <p>"${item.message}"</p>
-                    <small>- ${item.author || 'Your Husband'}</small>
+                    <small>- Your Husband</small>
                 </div>
             `;
         });
     } else {
-        container.innerHTML = '<p style="color: var(--dark-text);">No messages added yet. Go to Admin Panel!</p>';
+        container.innerHTML = '<p style="color: white;">No messages found!</p>';
     }
 }
 loadMessages();

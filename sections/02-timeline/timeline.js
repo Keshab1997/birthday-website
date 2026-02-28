@@ -10,25 +10,33 @@ async function loadTimeline() {
         .order('event_date', { ascending: true });
 
     const container = document.getElementById('timeline-container');
-    
     if (!container) return;
-    
-    container.innerHTML = '<p style="color:#666;">Loading timeline...</p>';
 
     if (data && data.length > 0) {
         container.innerHTML = '';
-        data.forEach(item => {
-            container.innerHTML += `
-                <div class="timeline-item">
-                    <div class="timeline-date">${new Date(item.event_date).toDateString()}</div>
-                    <h3>${item.title}</h3>
-                    <p>${item.description}</p>
-                    ${item.image_url ? `<img src="${item.image_url}" alt="moment">` : ''}
+        data.forEach((item, index) => {
+            const sideClass = index % 2 === 0 ? 'left' : 'right';
+            
+            const timelineHtml = `
+                <div class="timeline-item ${sideClass}">
+                    <div class="timeline-content">
+                        <div class="timeline-date">${new Date(item.event_date).toDateString()}</div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        ${item.image_url ? `<img src="${item.image_url}" alt="moment">` : ''}
+                    </div>
                 </div>
             `;
+            container.innerHTML += timelineHtml;
         });
+
+        setTimeout(() => {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach(item => item.classList.add('show'));
+        }, 100);
+        
     } else {
-        container.innerHTML = '<p style="color:#666;">No timeline events yet. Add some from admin panel!</p>';
+        container.innerHTML = '<p style="color:#666; text-align:center;">No timeline events yet.</p>';
     }
 }
 

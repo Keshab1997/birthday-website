@@ -1,161 +1,152 @@
 .gift-section {
     min-height: 100vh;
-    padding: 50px 20px;
-    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-    text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd700, #ff75a0);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-.gift-section h2 {
-    color: #333;
-    font-size: 2.5rem;
+.gift-header h2 {
+    font-size: 3.5rem;
+    color: white;
+    text-shadow: 0 10px 20px rgba(0,0,0,0.2);
     margin-bottom: 10px;
 }
 
-.gift-section p {
-    color: #666;
-    font-size: 1.2rem;
-    margin-bottom: 50px;
+.gift-header p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+}
+
+.gift-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    cursor: pointer;
+    perspective: 1000px;
+    z-index: 10;
 }
 
 .gift-box {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.gift-box:hover {
-    transform: scale(1.1);
-}
-
-.gift-body {
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    width: 100%;
+    height: 100%;
+    background: #ff4757;
     border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 5rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    animation: bounce 2s infinite;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    animation: shake 2s infinite;
 }
 
-.gift-ribbon {
+.gift-box::before {
+    content: '';
     position: absolute;
-    top: 50%;
+    width: 45px;
+    height: 100%;
+    background: #ffd700;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30px;
-    height: 200px;
-    background: gold;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.gift-box::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    background: #ffd700;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 1;
 }
 
-.gift-ribbon::before {
-    content: '';
+.gift-lid {
     position: absolute;
-    top: 50%;
+    width: 240px;
+    height: 60px;
+    background: #ff6b81;
+    top: -25px;
+    left: -10px;
+    border-radius: 12px;
+    z-index: 11;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.gift-lid::before {
+    content: '🎀';
+    position: absolute;
+    top: -45px;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(90deg);
-    width: 30px;
-    height: 200px;
-    background: gold;
+    transform: translateX(-50%);
+    font-size: 60px;
 }
 
-.gift-box.open {
-    animation: giftOpen 1s forwards;
-}
-
-@keyframes giftOpen {
-    to {
-        transform: scale(0) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-#gift-reveal {
-    margin-top: 50px;
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30%, 50%, 70%, 90% { transform: rotate(-4deg); }
+    20%, 40%, 60%, 80% { transform: rotate(4deg); }
 }
 
 .gift-message {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    max-width: 500px;
-    animation: fadeIn 1s;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 60px 40px;
+    border-radius: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+    max-width: 700px;
+    width: 90%;
+    display: none;
+    animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 .gift-message h3 {
-    color: #f5576c;
-    font-size: 1.8rem;
-    margin-bottom: 30px;
-    line-height: 1.6;
+    color: white;
+    font-size: 2.5rem;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .gift-message button {
-    padding: 15px 40px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
+    padding: 20px 60px;
+    background: white;
+    color: #ff4757;
     border: none;
     border-radius: 50px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
 }
 
 .gift-message button:hover {
     transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.5);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+@media (min-width: 1920px) {
+    .gift-message h3 { font-size: 3.5rem; }
+    .gift-message { max-width: 1000px; padding: 80px; }
 }
 
 @media (max-width: 768px) {
-    .gift-section h2 {
-        font-size: 2rem;
-    }
-    
-    .gift-box {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .gift-body {
-        width: 150px;
-        height: 150px;
-        font-size: 4rem;
-    }
-    
-    .gift-ribbon {
-        height: 150px;
-    }
-    
-    .gift-ribbon::before {
-        height: 150px;
-    }
+    .gift-header h2 { font-size: 2rem; }
+    .gift-container { width: 180px; height: 180px; }
+    .gift-message h3 { font-size: 1.8rem; }
 }

@@ -27,6 +27,10 @@ window.deleteItem = async (table, id) => {
 window.showTab = (tabName) => {
     document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
     document.getElementById('tab-' + tabName).style.display = 'block';
+    
+    // Update active state in sidebar
+    document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
 };
 
 // --- Session Check ---
@@ -60,6 +64,9 @@ async function uploadImage(file) {
     if (!file) return null;
     console.log('Starting ImgBB upload for:', file.name);
     
+    // Show loader
+    showUploadLoader();
+    
     const formData = new FormData();
     formData.append('image', file);
     
@@ -71,6 +78,9 @@ async function uploadImage(file) {
         const json = await res.json();
         console.log('ImgBB response:', json);
         
+        // Hide loader
+        hideUploadLoader();
+        
         if (json.success) {
             console.log('Upload successful, URL:', json.data.url);
             return json.data.url;
@@ -80,8 +90,27 @@ async function uploadImage(file) {
         }
     } catch (error) {
         console.error('ImgBB upload error:', error);
+        hideUploadLoader();
         return null;
     }
+}
+
+// Show upload loader
+function showUploadLoader() {
+    const loader = document.createElement('div');
+    loader.id = 'upload-loader';
+    loader.className = 'upload-loader';
+    loader.innerHTML = `
+        <div class="spinner"></div>
+        <p>Uploading image... Please wait 📤</p>
+    `;
+    document.body.appendChild(loader);
+}
+
+// Hide upload loader
+function hideUploadLoader() {
+    const loader = document.getElementById('upload-loader');
+    if (loader) loader.remove();
 }
 
 // --- Save Hero ---
@@ -283,7 +312,7 @@ window.saveScratchImg = async () => {
     const url = document.getElementById('scratch-img-url').value;
     if (!url) return alert('Enter image URL first!');
     
-    const { error } = await _supabase.from('settings').upsert([{ key: 'scratch_image', value: url }]);
+    const { error } = await _supabase.from('settings').upsert({ key: 'scratch_image', value: url }, { onConflict: 'key' });
     if (!error) {
         alert('Scratch card image updated!');
     } else {

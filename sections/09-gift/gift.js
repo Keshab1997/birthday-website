@@ -1,17 +1,29 @@
 window.openGift = async () => {
-    const box = document.getElementById('gift-box');
-    box.classList.add('open');
+    const container = document.getElementById('gift-container');
+    const header = document.querySelector('.gift-header');
+    
+    if (container.classList.contains('open')) return;
+    container.classList.add('open');
     
     const { data } = await window._supabase.from('settings').select('value').eq('key', 'gift_message').maybeSingle();
     
     setTimeout(() => {
-        confetti({
-            particleCount: 300,
-            spread: 120,
-            origin: { y: 0.6 }
-        });
+        container.style.display = 'none';
+        header.style.display = 'none';
         
-        document.getElementById('gift-reveal').style.display = 'block';
-        document.getElementById('final-msg').innerText = data?.value || 'Your special gift is waiting for you! ❤️';
-    }, 1000);
+        const reveal = document.getElementById('gift-reveal');
+        const msgCard = document.querySelector('.gift-message');
+        const msgText = document.getElementById('final-msg');
+        
+        reveal.style.display = 'block';
+        msgCard.style.display = 'block';
+        msgText.innerText = data?.value || 'আলমারির ওপরের ড্রয়ারে তোমার আসল গিফটটা আছে! ❤️';
+        
+        confetti({
+            particleCount: 500,
+            spread: 160,
+            origin: { y: 0.6 },
+            colors: ['#ffffff', '#ffd700', '#ff4757', '#ff75a0']
+        });
+    }, 700);
 };

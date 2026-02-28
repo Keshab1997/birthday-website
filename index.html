@@ -67,6 +67,15 @@
     <script type="module">
         import { _supabase } from './assets/js/supabase-config.js';
         window._supabase = _supabase;
+        
+        // Wait for Supabase to be ready
+        let supabaseReady = false;
+        const supabaseReadyPromise = new Promise(resolve => {
+            if (window._supabase) {
+                supabaseReady = true;
+                resolve();
+            }
+        });
 
         // Button click sound
         const buttonClickSound = new Audio('assets/sounds/button-click.mp3');
@@ -102,22 +111,64 @@
             }
         };
 
-        // Music Controller
+        // Music Controller with Fade Effect
         async function playMusicForLevel(levelNumber) {
+            // Wait for Supabase to be ready
+            if (!supabaseReady) {
+                await supabaseReadyPromise;
+            }
+            
             const audio = document.getElementById('bg-music');
             try {
                 const { data } = await _supabase.from('settings').select('value').eq('key', `music_level_${levelNumber}`).maybeSingle();
                 if (data && data.value && !audio.src.includes(data.value)) {
-                    audio.src = data.value;
-                    audio.play().catch(() => console.log('Music blocked'));
+                    // Fade out current music
+                    fadeOutMusic(audio, () => {
+                        // Change source and fade in new music
+                        audio.src = data.value;
+                        audio.play().catch(() => console.log('Music blocked'));
+                        fadeInMusic(audio);
+                    });
                 }
             } catch (err) {
                 console.log('Music error:', err);
             }
         }
+        
+        // Fade out music
+        function fadeOutMusic(audio, callback) {
+            const fadeInterval = setInterval(() => {
+                if (audio.volume > 0.1) {
+                    audio.volume = Math.max(0, audio.volume - 0.1);
+                } else {
+                    clearInterval(fadeInterval);
+                    audio.pause();
+                    audio.volume = 1;
+                    if (callback) callback();
+                }
+            }, 100);
+        }
+        
+        // Fade in music
+        function fadeInMusic(audio) {
+            audio.volume = 0;
+            const fadeInterval = setInterval(() => {
+                if (audio.volume < 0.9) {
+                    audio.volume = Math.min(1, audio.volume + 0.1);
+                } else {
+                    clearInterval(fadeInterval);
+                    audio.volume = 1;
+                }
+            }, 100);
+        }
 
         // Check Code Function
         window.checkCode = async function() {
+            // Wait for Supabase to be ready
+            if (!supabaseReady) {
+                await supabaseReadyPromise;
+            }
+            
             const code = document.getElementById('secret-code').value;
             const { data } = await _supabase.from('settings').select('value').eq('key', 'secret_code').maybeSingle();
             const correctCode = data?.value || '1205';
@@ -158,7 +209,7 @@
             await loadSection('wheel-section', 'sections/12-wheel/wheel.html', './sections/12-wheel/wheel.js');
             await loadSection('az-section', 'sections/13-az/az.html', './sections/13-az/az.js');
             await loadSection('bucket-section', 'sections/08-bucket/bucket.html', './sections/08-bucket/bucket.js');
-            await loadSection('messages-section', 'sections/04-messages/messages.html');
+            await loadSection('messages-section', 'sections/04-messages/messages.html', './sections/04-messages/messages.js');
             await loadSection('gift-section', 'sections/09-gift/gift.html', './sections/09-gift/gift.js');
             await loadSection('cake-section', 'sections/05-cake/cake.html');
             

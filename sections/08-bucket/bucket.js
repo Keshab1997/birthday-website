@@ -7,12 +7,17 @@ async function loadBucketList() {
         return;
     }
     
-    list.innerHTML = data.map(item => `
-        <div class="bucket-item">
+    list.innerHTML = data.map((item, index) => `
+        <div class="bucket-item" style="transition-delay: ${index * 0.1}s;">
             <input type="checkbox" ${item.is_completed ? 'checked' : ''} disabled>
             <span>${item.task_name}</span>
         </div>
     `).join('');
+
+    setTimeout(() => {
+        const items = document.querySelectorAll('.bucket-item');
+        items.forEach(item => item.classList.add('reveal'));
+    }, 100);
 }
 
 loadBucketList();

@@ -1,10 +1,14 @@
 <link rel="stylesheet" href="sections/10-balloons/balloons.css">
 <div class="balloon-section">
     <button class="skip-btn" onclick="goToLevel(7)">Skip ⏭️</button>
-    <h2>🎈 Pop the Balloons to Find My Secrets!</h2>
-    <p>Pop 5 balloons to continue...</p>
-    <div class="score">Popped: <strong id="pop-count">0</strong>/5</div>
+    
+    <div class="balloon-header">
+        <h2>🎈 Pop the Balloons!</h2>
+        <p>Find the hidden messages inside...</p>
+        <div class="score">Popped: <span id="pop-count">0</span>/5</div>
+        <button id="next-from-balloons" style="display:none;" onclick="goToLevel(7)">Continue to Scratch Card 🎫</button>
+    </div>
+
     <div id="balloon-container"></div>
     <div id="pop-message-display" class="pop-up-msg"></div>
-    <button id="next-from-balloons" style="display:none;" onclick="goToLevel(7)">Continue to Scratch Card 🎫</button>
 </div>

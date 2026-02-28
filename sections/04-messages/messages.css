@@ -1,40 +1,70 @@
 .messages-section { 
-    padding: 60px 20px; 
-    background: var(--soft-pink); 
-    text-align: center; 
+    padding: 80px 20px; 
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); 
+    text-align: center;
+    min-height: 100vh;
 }
 
 .messages-container { 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 20px; 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .message-card {
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
-    width: 280px;
-    box-shadow: 0 10px 20px rgba(255, 117, 160, 0.2);
-    border-bottom: 5px solid var(--primary-pink);
-    font-style: italic;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    padding: 40px 30px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: 0.3s;
+    animation: fadeInUp 0.8s ease forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.message-card::after {
+    content: '❤️';
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 4rem;
+    opacity: 0.1;
+}
+
+.message-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 .message-card p {
-    margin-bottom: 10px;
+    font-size: 1.2rem !important;
+    color: #444 !important;
+    font-style: italic;
+    line-height: 1.8 !important;
+    margin-bottom: 20px;
 }
 
 .message-card small {
-    color: var(--rose-gold);
+    color: #ff4757;
     font-weight: bold;
+    font-size: 1rem;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .next-btn {
     display: block;
     margin: 40px auto 0;
     padding: 15px 40px;
-    background: var(--primary-pink);
+    background: linear-gradient(135deg, #ff75a0, #ff4081);
     color: white;
     border: none;
     border-radius: 50px;

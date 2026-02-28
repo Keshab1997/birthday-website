@@ -2,18 +2,20 @@ let messages = [];
 let poppedCount = 0;
 let balloonInterval;
 
-// Balloon pop sound - apni sound file dile ei line replace korben
 const popSound = new Audio('assets/sounds/balloon-pop.mp3');
 
 async function initBalloons() {
     const { data } = await window._supabase.from('balloon_messages').select('message');
     messages = data?.map(d => d.message) || ['I Love You! ❤️', 'You are Beautiful! ✨'];
     
-    balloonInterval = setInterval(createBalloon, 2000);
+    balloonInterval = setInterval(createBalloon, 1000); // 1 second - very fast
     
+    // Start with many balloons immediately
     createBalloon();
-    setTimeout(createBalloon, 500);
-    setTimeout(createBalloon, 1000);
+    setTimeout(createBalloon, 200);
+    setTimeout(createBalloon, 400);
+    setTimeout(createBalloon, 600);
+    setTimeout(createBalloon, 800);
 }
 
 function createBalloon() {
@@ -23,27 +25,34 @@ function createBalloon() {
     const balloon = document.createElement('div');
     balloon.className = 'balloon';
     
-    const colors = ['#ff4081', '#ffeb3b', '#3f51b5', '#4caf50', '#ff9800', '#e91e63', '#9c27b0'];
-    balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    const knot = document.createElement('div');
+    knot.className = 'balloon-knot';
+    
+    const colors = [
+        '#ff4d4d', '#ff9f43', '#feca57', '#48dbfb', 
+        '#ff9ff3', '#54a0ff', '#5f27cd', '#ff6b6b'
+    ];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    balloon.style.backgroundColor = color;
+    knot.style.borderBottomColor = color;
+    
+    balloon.appendChild(knot);
     balloon.style.left = Math.random() * 85 + 5 + '%';
-    balloon.style.animationDuration = (Math.random() * 3 + 5) + 's';
-    balloon.innerHTML = '🎈';
+    balloon.style.animationDuration = (Math.random() * 5 + 10) + 's'; // 10-15 seconds (slow)
 
     balloon.onclick = () => popBalloon(balloon);
     container.appendChild(balloon);
 
-    setTimeout(() => balloon.remove(), 10000);
+    setTimeout(() => { if(balloon) balloon.remove(); }, 20000); // 20 seconds lifetime - longer
 }
 
 function popBalloon(el) {
-    // Play pop sound
+    if (el.classList.contains('popping')) return;
+    
     popSound.currentTime = 0;
     popSound.play().catch(() => {});
     
-    el.style.transform = 'scale(0)';
-    el.style.transition = 'transform 0.3s';
-    
-    setTimeout(() => el.remove(), 300);
+    el.classList.add('popping');
     
     poppedCount++;
     document.getElementById('pop-count').textContent = poppedCount;
@@ -53,24 +62,19 @@ function popBalloon(el) {
     msgDisplay.classList.add('show');
 
     confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { x: parseFloat(el.style.left) / 100, y: 0.8 }
+        particleCount: 60,
+        spread: 70,
+        origin: { x: el.getBoundingClientRect().left / window.innerWidth, y: el.getBoundingClientRect().top / window.innerHeight }
     });
 
     setTimeout(() => {
         msgDisplay.classList.remove('show');
+        el.remove();
     }, 1500);
 
     if (poppedCount >= 5) {
         clearInterval(balloonInterval);
         document.getElementById('next-from-balloons').style.display = 'inline-block';
-        
-        confetti({
-            particleCount: 200,
-            spread: 100,
-            origin: { y: 0.6 }
-        });
     }
 }
 

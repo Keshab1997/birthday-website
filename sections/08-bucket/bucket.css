@@ -1,90 +1,139 @@
 .bucket-section {
     min-height: 100vh;
-    padding: 50px 20px;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 80px 20px;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .bucket-section h2 {
+    font-size: 3.5rem;
     color: white;
-    font-size: 2.5rem;
+    text-shadow: 0 10px 20px rgba(0,0,0,0.2);
     margin-bottom: 10px;
+    font-weight: 800;
 }
 
 .bucket-section p {
-    color: white;
-    font-size: 1.2rem;
-    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.3rem;
+    margin-bottom: 50px;
 }
 
 .bucket-container {
-    max-width: 600px;
-    margin: 0 auto 40px;
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .bucket-item {
-    background: white;
-    padding: 20px;
-    margin: 15px 0;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 20px 35px !important;
+    border-radius: 20px !important;
     display: flex;
     align-items: center;
-    gap: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    animation: slideIn 0.5s ease;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    transform: translateY(30px);
+    margin: 0 !important;
+}
+
+.bucket-item.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bucket-item:hover {
+    transform: scale(1.03) translateX(10px);
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .bucket-item input[type="checkbox"] {
-    width: 25px;
-    height: 25px;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 35px;
+    height: 35px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.bucket-item input[type="checkbox"]:checked {
+    background: #ff4757;
+    border-color: #ff4757;
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+}
+
+.bucket-item input[type="checkbox"]:checked::after {
+    content: '❤️';
+    font-size: 18px;
 }
 
 .bucket-item span {
     flex: 1;
     text-align: left;
-    font-size: 1.1rem;
-    color: #333;
+    font-size: 1.3rem !important;
+    color: white !important;
+    font-weight: 500 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .bucket-item input:checked + span {
     text-decoration: line-through;
-    color: #999;
+    opacity: 0.6;
 }
 
-.next-btn {
-    padding: 15px 40px;
+.bucket-section .next-btn {
+    margin-top: 50px;
+    padding: 18px 60px;
     background: white;
-    color: #f5576c;
+    color: #ff4757;
     border: none;
     border-radius: 50px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.next-btn:hover {
+.bucket-section .next-btn:hover {
     transform: scale(1.1);
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+@media (min-width: 1920px) {
+    .bucket-container { max-width: 1200px; }
+    .bucket-item span { font-size: 1.7rem !important; }
+    .bucket-item { padding: 30px 45px !important; }
 }
 
 @media (max-width: 768px) {
-    .bucket-section h2 {
-        font-size: 2rem;
-    }
-    
-    .bucket-item {
-        padding: 15px;
-    }
+    .bucket-section h2 { font-size: 2rem; }
+    .bucket-item { padding: 15px 20px !important; }
+    .bucket-item span { font-size: 1.1rem !important; }
 }

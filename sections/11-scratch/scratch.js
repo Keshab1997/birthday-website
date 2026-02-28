@@ -1,11 +1,26 @@
 async function initScratch() {
     const { data } = await window._supabase.from('settings').select('value').eq('key', 'scratch_image').maybeSingle();
     const img = document.getElementById('scratch-bg-img');
-    img.src = data?.value || 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800';
+    
+    const imageUrl = data?.value || 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800';
+    console.log('Scratch Image URL:', imageUrl);
+    
+    img.src = imageUrl;
+    
+    img.onload = () => {
+        console.log('✅ Scratch image loaded successfully');
+        setupCanvas();
+    };
+    
+    img.onerror = () => {
+        console.error('❌ Image failed to load. Check the URL.');
+        alert('Scratch image load হতে পারছে না! দয়া করে সঠিক Direct Link দিন।');
+    };
+}
 
+function setupCanvas() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
-    const container = canvas.parentElement;
     
     // Dynamic sizing for mobile
     const size = Math.min(window.innerWidth - 40, 400);

@@ -1,13 +1,32 @@
 <link rel="stylesheet" href="sections/05-cake/cake.css">
 <section class="cake-section">
-    <h2>Make a Wish & Blow the Candle!</h2>
+    <h2 id="cake-title">Make a Wish & Blow the Candle! 🎂</h2>
+    
     <div class="cake-container">
-        <div class="candle" id="candle">
+        <!-- মোমবাতি -->
+        <div class="candle-wrapper" id="candle-group">
             <div class="flame" id="flame"></div>
+            <div class="candle-stick"></div>
         </div>
-        <div class="cake"></div>
+        
+        <!-- ছুরি -->
+        <div class="knife" id="knife">🔪</div>
+        
+        <!-- কেক -->
+        <div class="cake-body">
+            <div class="cake-left" id="cake-left"></div>
+            <div class="cake-right" id="cake-right"></div>
+        </div>
+        
+        <!-- প্লেট -->
+        <div class="plate"></div>
     </div>
-    <button id="blow-btn">Blow Candle 🎂</button>
-    <h3 id="wish-msg" style="display:none; margin-top:20px; color: var(--primary-pink);">Happy Birthday, My Love! ❤️</h3>
+
+    <button id="blow-btn">Blow & Cut Cake 🎂</button>
+    
+    <div id="wish-msg" style="display:none;">
+        <h1>Happy Birthday, My Love! ❤️</h1>
+        <p>দীপা, আজকের দিনটি তোমার জীবনের সবথেকে সুন্দর দিন হোক।</p>
+    </div>
 </section>
 <script src="sections/05-cake/cake.js"></script>

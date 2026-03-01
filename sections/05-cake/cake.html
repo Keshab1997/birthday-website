@@ -1,32 +1,111 @@
 <link rel="stylesheet" href="sections/05-cake/cake.css">
-<section class="cake-section">
-    <h2 id="cake-title">Make a Wish & Blow the Candle! 🎂</h2>
-    
-    <div class="cake-container">
-        <!-- মোমবাতি -->
-        <div class="candle-wrapper" id="candle-group">
-            <div class="flame" id="flame"></div>
-            <div class="candle-stick"></div>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Alex+Brush&display=swap" rel="stylesheet">
+
+<div id="cake-section">
+<!-- Bokeh Background -->
+<div class="bokeh-bg" id="bokehBg"></div>
+<div class="ambient"></div>
+
+<!-- Confetti Layer -->
+<div class="confetti-layer" id="confettiLayer"></div>
+
+<!-- Knife -->
+<div class="knife" id="knife">
+    <div class="knife-handle"></div>
+    <div class="knife-blade"></div>
+</div>
+
+<!-- Sparkle Rings -->
+<div class="ring" id="ring1"></div>
+<div class="ring" id="ring2"></div>
+
+<!-- Birthday Message -->
+<div class="msg" id="msg">
+    Happy Birthday, Deepa ✨
+    <span class="sub">Wishing you endless love & joy</span>
+    <span class="hearts">🌹 💛 🎂 💛 🌹</span>
+</div>
+
+<!-- Music Notes -->
+<div class="notes" id="notes"><span>♪</span><span>♫</span><span>♬</span></div>
+
+<!-- Title Section -->
+<div class="title-section">
+    <h1 class="title">Happy Birthday Deepa</h1>
+    <p class="subtitle">A celebration of you</p>
+    <div class="divider"><div class="bar"></div><div class="gem"></div><div class="bar"></div></div>
+</div>
+
+<!-- Scene -->
+<div class="scene">
+    <div class="cake-wrapper" id="cakeWrap">
+        <div class="cake-aura"></div>
+
+        <!-- Top Tier -->
+        <div class="tier t-top">
+            <div class="tier-face"></div>
+            <div class="tier-body">
+                <div class="frost-ring top-ring"></div>
+                <div class="frost-ring bot-ring"></div>
+            </div>
+            <!-- Candles -->
+            <div class="candles" id="candles">
+                <div class="candle c1"><div class="flame-wrap"><div class="flame-halo"></div><div class="flame-outer"><div class="flame-inner"></div></div></div></div>
+                <div class="candle c2"><div class="flame-wrap"><div class="flame-halo"></div><div class="flame-outer"><div class="flame-inner"></div></div></div></div>
+                <div class="candle c3"><div class="flame-wrap"><div class="flame-halo"></div><div class="flame-outer"><div class="flame-inner"></div></div></div></div>
+                <div class="candle c4"><div class="flame-wrap"><div class="flame-halo"></div><div class="flame-outer"><div class="flame-inner"></div></div></div></div>
+                <div class="candle c5"><div class="flame-wrap"><div class="flame-halo"></div><div class="flame-outer"><div class="flame-inner"></div></div></div></div>
+            </div>
+            <div class="rose-accent" style="left:2px;top:-8px;">🌹</div>
+            <div class="rose-accent" style="right:2px;top:-8px;">🌹</div>
+            <div class="pearls" id="pearlsTop"></div>
         </div>
-        
-        <!-- ছুরি -->
-        <div class="knife" id="knife">🔪</div>
-        
-        <!-- কেক -->
-        <div class="cake-body">
-            <div class="cake-left" id="cake-left"></div>
-            <div class="cake-right" id="cake-right"></div>
+
+        <!-- Middle Tier -->
+        <div class="tier t-middle">
+            <div class="tier-face"></div>
+            <div class="tier-body">
+                <div class="frost-ring top-ring"></div>
+                <div class="frost-ring bot-ring"></div>
+                <!-- Drips -->
+                <div class="drip" style="left:16px;  width:9px; height:22px; animation-delay:0.1s;"></div>
+                <div class="drip" style="left:50px;  width:8px; height:15px; animation-delay:0.3s;"></div>
+                <div class="drip" style="left:95px;  width:10px;height:26px; animation-delay:0.0s;"></div>
+                <div class="drip" style="left:140px; width:8px; height:17px; animation-delay:0.2s;"></div>
+                <div class="drip" style="left:190px; width:9px; height:20px; animation-delay:0.15s;"></div>
+                <!-- Inscription -->
+                <div class="cake-label">Happy Birthday Deepa</div>
+            </div>
+            <div class="pearls" id="pearlsMid"></div>
         </div>
-        
-        <!-- প্লেট -->
+
+        <!-- Bottom Tier -->
+        <div class="tier t-bottom">
+            <div class="tier-face"></div>
+            <div class="tier-body">
+                <div class="frost-ring top-ring"></div>
+                <div class="frost-ring bot-ring"></div>
+                <!-- Drips -->
+                <div class="drip" style="left:20px;  width:10px;height:24px; animation-delay:0.05s;"></div>
+                <div class="drip" style="left:62px;  width:9px; height:17px; animation-delay:0.25s;"></div>
+                <div class="drip" style="left:108px; width:11px;height:30px; animation-delay:0.0s;"></div>
+                <div class="drip" style="left:155px; width:9px; height:20px; animation-delay:0.15s;"></div>
+                <div class="drip" style="left:205px; width:10px;height:26px; animation-delay:0.1s;"></div>
+                <div class="drip" style="left:255px; width:8px; height:15px; animation-delay:0.3s;"></div>
+            </div>
+            <div class="pearls" id="pearlsBot"></div>
+        </div>
+
+        <!-- Plate -->
         <div class="plate"></div>
+        <div class="plate-glow"></div>
+        <div class="plate-shadow"></div>
     </div>
 
-    <button id="blow-btn">Blow & Cut Cake 🎂</button>
-    
-    <div id="wish-msg" style="display:none;">
-        <h1>Happy Birthday, My Love! ❤️</h1>
-        <p>দীপা, আজকের দিনটি তোমার জীবনের সবথেকে সুন্দর দিন হোক।</p>
-    </div>
-</section>
+    <button class="btn" id="btn">Cut the Cake</button>
+</div>
+
+<div class="footer">Made with love</div>
+</div>
+
 <script src="sections/05-cake/cake.js"></script>

@@ -1,159 +1,345 @@
-.cake-section {
+#cake-section {
+    --champagne-deep: #b8956e;
+    --champagne: #d4af8c;
+    --champagne-light: #e8cba8;
+    --champagne-glow: #f0dcc4;
+    --gold-rich: #c9a055;
+    --gold-shine: #e8c868;
+    --pink-deep: #c4848a;
+    --pink-soft: #dca8a8;
+    --pink-blush: #f0c8c8;
+    --pink-pale: #f8e0e0;
+    --cream: #faf0e6;
+    --cream-warm: #f5e6d7;
+    --bg-dark: #1a0e14;
+    --bg-mid: #251820;
+    --chocolate: #3e2216;
+    --chocolate-light: #5c3a28;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
-    text-align: center;
-}
-
-.cake-section h2 {
-    font-size: 3rem;
-    color: #d81b60;
-    margin-bottom: 50px;
-}
-
-.cake-container {
+    justify-content: flex-end;
+    padding-bottom: 0.5vh;
+    background: var(--bg-dark);
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
     position: relative;
-    width: 300px;
-    height: 250px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
 }
 
-/* কেক বডি */
-.cake-body {
+#cake-section .bokeh-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 30% 35%, #2a1520 0%, transparent 60%), radial-gradient(ellipse at 70% 60%, #221418 0%, transparent 55%), radial-gradient(ellipse at 50% 80%, #1e1018 0%, transparent 50%), var(--bg-dark);
+    overflow: hidden;
+}
+#cake-section .bokeh-orb { position: absolute; border-radius: 50%; animation: orbDrift linear infinite; }
+@keyframes orbDrift {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    8% { opacity: var(--peak); }
+    85% { opacity: var(--peak); }
+    100% { transform: translateY(-115vh) scale(1.2); opacity: 0; }
+}
+#cake-section .bokeh-fixed { position: absolute; border-radius: 50%; animation: orbPulse ease-in-out infinite; }
+@keyframes orbPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+#cake-section .ambient {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 90%, rgba(212,175,140,0.08) 0%, transparent 50%), radial-gradient(ellipse at 25% 20%, rgba(220,168,168,0.05) 0%, transparent 40%), radial-gradient(ellipse at 75% 30%, rgba(200,160,100,0.04) 0%, transparent 40%);
+}
+
+#cake-section .scene {
+    position: relative; z-index: 10;
+    display: flex; flex-direction: column; align-items: center;
+    perspective: 1000px;
+    margin-top: auto;
+}
+
+#cake-section .title-section {
+    position: fixed; top: 5vh; left: 50%; transform: translateX(-50%);
+    text-align: center; z-index: 10; width: 100%;
+}
+#cake-section .title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    color: var(--champagne-glow);
+    margin-bottom: 8px;
+    letter-spacing: 3px;
+    animation: titleShimmer 5s ease-in-out infinite alternate;
+}
+@keyframes titleShimmer {
+    0% { text-shadow: 0 0 20px rgba(212,175,140,0.35), 0 0 40px rgba(200,160,85,0.15), 0 2px 4px rgba(0,0,0,0.4); color: var(--champagne-glow); }
+    100% { text-shadow: 0 0 30px rgba(232,200,104,0.5), 0 0 60px rgba(212,175,140,0.3), 0 0 90px rgba(201,160,85,0.12), 0 2px 4px rgba(0,0,0,0.4); color: #fff5e6; }
+}
+#cake-section .subtitle {
+    font-size: clamp(0.6rem, 1.1vw, 0.75rem);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: rgba(212,175,140,0.32);
+    margin-bottom: 12px;
+    font-weight: 300;
+}
+#cake-section .divider { display: flex; align-items: center; gap: 16px; justify-content: center; opacity: 0.3; }
+#cake-section .divider .bar { width: 80px; height: 1px; background: linear-gradient(to right, transparent, var(--champagne), transparent); }
+#cake-section .divider .gem { width: 5px; height: 5px; background: var(--champagne); transform: rotate(45deg); }
+
+#cake-section .cake-wrapper {
+    transform-style: preserve-3d;
+    transform: rotateX(8deg);
+    animation: cakeHover 5s ease-in-out infinite alternate;
     position: relative;
-    width: 250px;
-    height: 150px;
-    display: flex;
-    z-index: 5;
-}
-
-.cake-left,
-.cake-right {
-    width: 125px;
-    height: 150px;
-    background: linear-gradient(to bottom, #fce4ec 0%, #fce4ec 25%, #f06292 25%);
-    transition: transform 0.8s ease;
-}
-
-.cake-left {
-    border-radius: 20px 0 0 10px;
-}
-
-.cake-right {
-    border-radius: 0 20px 10px 0;
-}
-
-/* কাটার পর */
-.cake-left.cut {
-    transform: translateX(-50px) rotate(-8deg);
-}
-
-.cake-right.cut {
-    transform: translateX(50px) rotate(8deg);
-}
-
-/* মোমবাতি */
-.candle-wrapper {
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-}
-
-.candle-stick {
-    width: 12px;
-    height: 60px;
-    background: repeating-linear-gradient(0deg, #fff 0, #fff 10px, #ff4081 10px, #ff4081 20px);
-    border-radius: 5px;
-}
-
-.flame {
-    width: 20px;
-    height: 30px;
-    background: radial-gradient(circle, #ffeb3b, #ff9800);
-    border-radius: 50% 50% 20% 20%;
-    position: absolute;
-    top: -30px;
-    left: -4px;
-    box-shadow: 0 0 20px #ff9800;
-    animation: flicker 0.15s infinite alternate;
-}
-
-@keyframes flicker {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
-}
-
-/* ছুরি */
-.knife {
-    position: absolute;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 60px;
-    z-index: 20;
-    opacity: 0;
-}
-
-.knife.active {
-    opacity: 1;
-    top: 50px;
-    transition: all 0.6s ease;
-}
-
-/* প্লেট */
-.plate {
-    width: 350px;
-    height: 20px;
-    background: linear-gradient(180deg, #e0e0e0, #bdbdbd);
-    border-radius: 50%;
-    position: absolute;
-    bottom: -20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* বাটন */
-#blow-btn {
-    margin-top: 60px;
-    padding: 18px 50px;
-    background: #d81b60;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.5rem;
-    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(216, 27, 96, 0.3);
+    transition: transform 0.6s ease;
+}
+#cake-section .cake-wrapper:hover { transform: rotateX(8deg) scale(1.015); }
+@keyframes cakeHover {
+    0% { transform: rotateX(8deg) translateY(0); }
+    100% { transform: rotateX(8deg) translateY(-4px); }
+}
+#cake-section .cake-wrapper.sliced { animation: none; transform: rotateX(8deg); }
+
+#cake-section .tier { position: relative; margin: 0 auto; }
+#cake-section .tier-face { position: absolute; top: 0; left: 0; right: 0; border-radius: 50%; transform: translateY(-50%); z-index: 4; }
+#cake-section .tier-body { border-radius: 14px / 7px; position: relative; overflow: hidden; }
+#cake-section .tier-body::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent, rgba(255,255,255,0.008) 1px, transparent 3px); pointer-events: none; }
+
+#cake-section .t-bottom { width: 300px; }
+#cake-section .t-bottom .tier-body {
+    height: 88px;
+    background: linear-gradient(160deg, #debb98 0%, #d4ae88 15%, #c89a70 32%, #be8e62 50%, #c4956a 68%, #d0a47c 85%, #d8b08a 100%);
+    box-shadow: inset 8px 0 22px rgba(255,255,255,0.07), inset -10px 0 26px rgba(0,0,0,0.14), inset 0 5px 12px rgba(255,255,255,0.09), inset 0 -8px 16px rgba(0,0,0,0.16), 5px 12px 35px rgba(0,0,0,0.32), 0 22px 55px rgba(0,0,0,0.20);
+}
+#cake-section .t-bottom .tier-face {
+    height: 32px;
+    background: radial-gradient(ellipse at 38% 42%, rgba(255,255,255,0.24) 0%, transparent 50%), linear-gradient(135deg, #e8c8a4, #debb98, #d4ae88);
+    box-shadow: inset 0 2px 7px rgba(255,255,255,0.18), inset 0 -2px 5px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.12);
 }
 
-#blow-btn:hover {
-    transform: scale(1.05);
-    background: #ad1457;
+#cake-section .t-middle { width: 225px; margin-bottom: 2px; }
+#cake-section .t-middle .tier-body {
+    height: 74px;
+    background: linear-gradient(160deg, #f0ccc0 0%, #eac0b0 18%, #e2b4a2 36%, #daa896 54%, #dfb0a0 72%, #e8bcac 90%, #eec6b6 100%);
+    box-shadow: inset 6px 0 18px rgba(255,255,255,0.08), inset -8px 0 22px rgba(0,0,0,0.10), inset 0 4px 10px rgba(255,255,255,0.11), inset 0 -6px 14px rgba(0,0,0,0.12), 4px 10px 28px rgba(0,0,0,0.24), 0 18px 44px rgba(0,0,0,0.14);
+}
+#cake-section .t-middle .tier-face {
+    height: 28px;
+    background: radial-gradient(ellipse at 38% 42%, rgba(255,255,255,0.28) 0%, transparent 50%), linear-gradient(135deg, #f8dcd0, #f0ccc0, #e8c0b0);
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.20), inset 0 -2px 4px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.09);
 }
 
-/* উইশ মেসেজ */
-#wish-msg {
-    margin-top: 30px;
-    animation: popIn 0.8s ease;
+#cake-section .t-top { width: 155px; margin-bottom: 2px; }
+#cake-section .t-top .tier-body {
+    height: 60px;
+    background: linear-gradient(160deg, #e0b0b0 0%, #d8a2a2 18%, #d09696 36%, #c88a8a 54%, #cc9090 72%, #d49c9c 90%, #daa4a4 100%);
+    box-shadow: inset 5px 0 16px rgba(255,255,255,0.07), inset -7px 0 18px rgba(0,0,0,0.11), inset 0 3px 8px rgba(255,255,255,0.10), inset 0 -5px 12px rgba(0,0,0,0.13), 3px 8px 24px rgba(0,0,0,0.24), 0 15px 38px rgba(0,0,0,0.12);
+}
+#cake-section .t-top .tier-face {
+    height: 24px;
+    background: radial-gradient(ellipse at 38% 42%, rgba(255,255,255,0.30) 0%, transparent 50%), linear-gradient(135deg, #eac0c0, #e0b0b0, #d8a4a4);
+    box-shadow: inset 0 2px 5px rgba(255,255,255,0.22), inset 0 -2px 3px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.08);
 }
 
-#wish-msg h1 {
-    font-size: 2.5rem;
-    color: #d81b60;
+#cake-section .frost-ring { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 50%; z-index: 5; }
+#cake-section .frost-ring.top-ring {
+    top: -3px; width: calc(100% + 4px); height: 10px;
+    background: linear-gradient(to right, rgba(250,240,230,0.45), var(--cream), rgba(250,240,230,0.45));
+    box-shadow: 0 0 12px rgba(250,240,230,0.20);
+}
+#cake-section .frost-ring.bot-ring {
+    bottom: -2px; width: calc(100% + 6px); height: 10px;
+    background: linear-gradient(to right, rgba(250,235,220,0.30), rgba(250,240,230,0.50), rgba(250,235,220,0.30));
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
 
-#wish-msg p {
-    font-size: 1.5rem;
-    color: #ad1457;
+#cake-section .drip {
+    position: absolute; top: 0; z-index: 6;
+    background: linear-gradient(180deg, var(--cream), var(--champagne-glow), var(--champagne-light));
+    border-radius: 0 0 50% 50%;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.28), 0 3px 10px rgba(0,0,0,0.12);
+    animation: dripAppear 0.8s ease-out both;
+}
+@keyframes dripAppear {
+    0% { max-height: 0; opacity: 0; }
+    100% { max-height: 60px; opacity: 1; }
 }
 
-@keyframes popIn {
-    from { transform: scale(0); }
-    to { transform: scale(1); }
+#cake-section .pearls { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 9px; z-index: 6; }
+#cake-section .pearl {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff8f0, #e0c8a8);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12), inset 0 -1px 1px rgba(0,0,0,0.08), 0 0 6px rgba(201,160,85,0.22);
+    animation: pearlGlow 3.5s ease-in-out infinite alternate;
+}
+@keyframes pearlGlow {
+    0% { box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 0 4px rgba(201,160,85,0.15); }
+    100% { box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 0 12px rgba(201,160,85,0.45); }
+}
+
+#cake-section .candles { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 12; }
+#cake-section .candle { position: relative; border-radius: 3px 3px 2px 2px; background: linear-gradient(to right, #f5e8d8, #fffbf5, #f0e0cc); box-shadow: 1px 1px 5px rgba(0,0,0,0.14); }
+#cake-section .candle.c1 { width: 5px; height: 36px; }
+#cake-section .candle.c2 { width: 5px; height: 42px; }
+#cake-section .candle.c3 { width: 6px; height: 46px; }
+#cake-section .candle.c4 { width: 5px; height: 40px; }
+#cake-section .candle.c5 { width: 5px; height: 36px; }
+#cake-section .candle::before { content: ''; position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 1.5px; height: 5px; background: #3a3a3a; border-radius: 1px; }
+#cake-section .candle::after { content: ''; position: absolute; bottom: 30%; left: 0; right: 0; height: 3px; background: linear-gradient(to right, transparent, rgba(201,160,85,0.55), transparent); }
+
+#cake-section .flame-wrap { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); z-index: 13; }
+#cake-section .flame-outer {
+    width: 12px; height: 18px;
+    background: radial-gradient(ellipse at 50% 85%, #fffbe6 0%, #ffe08a 22%, #ffb347 48%, #ff8c42 72%, transparent 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flameDance 0.35s ease-in-out infinite alternate;
+    position: relative;
+}
+#cake-section .flame-inner {
+    position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 10px;
+    background: radial-gradient(ellipse at 50% 80%, #fff 0%, #fff8e0 40%, #ffe58a 80%, transparent 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+#cake-section .flame-halo {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    width: 40px; height: 40px;
+    background: radial-gradient(circle, rgba(255,200,100,0.25) 0%, rgba(255,179,71,0.08) 40%, transparent 65%);
+    border-radius: 50%;
+    animation: haloBreath 1.8s ease-in-out infinite alternate;
+}
+@keyframes flameDance {
+    0% { transform: scaleX(1) scaleY(1) rotate(-1.5deg); }
+    25% { transform: scaleX(0.92) scaleY(1.06) rotate(1deg); }
+    50% { transform: scaleX(1.04) scaleY(0.94) rotate(-0.8deg); }
+    100% { transform: scaleX(0.94) scaleY(1.05) rotate(1.5deg); }
+}
+@keyframes haloBreath {
+    0% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+}
+
+#cake-section .cake-label {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    font-family: 'Alex Brush', 'Great Vibes', cursive;
+    font-size: 1.05rem;
+    color: var(--chocolate);
+    white-space: nowrap;
+    letter-spacing: 1.8px;
+    z-index: 7;
+    animation: labelGlow 3s ease-in-out infinite alternate;
+    -webkit-text-stroke: 0.2px rgba(92,58,40,0.3);
+}
+@keyframes labelGlow {
+    0% { text-shadow: 0 0 4px rgba(201,160,85,0.4), 0 0 10px rgba(201,160,85,0.2), 0 1px 2px rgba(0,0,0,0.3), 1px 1px 0 rgba(232,200,104,0.25); color: var(--chocolate); }
+    100% { text-shadow: 0 0 8px rgba(232,200,104,0.6), 0 0 20px rgba(201,160,85,0.35), 0 0 35px rgba(201,160,85,0.15), 0 1px 2px rgba(0,0,0,0.3), 1px 1px 0 rgba(232,200,104,0.4); color: var(--chocolate-light); }
+}
+
+#cake-section .rose-accent { position: absolute; z-index: 8; font-size: 0.85rem; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.22)); }
+
+#cake-section .plate {
+    width: 350px; height: 34px; margin-top: -4px;
+    background: linear-gradient(to bottom, #f8f2ec, #efe6de, #e0d6cc);
+    border-radius: 50%; position: relative;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.24), 0 16px 45px rgba(0,0,0,0.16), inset 0 2px 6px rgba(255,255,255,0.30), inset 0 -2px 5px rgba(0,0,0,0.06);
+}
+#cake-section .plate::before { content: ''; position: absolute; top: 4px; left: 16px; right: 16px; height: 10px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent); border-radius: 50%; }
+#cake-section .plate-glow {
+    width: 390px; height: 48px; margin-top: 2px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(212,175,140,0.10) 0%, rgba(201,160,85,0.05) 40%, transparent 65%);
+    animation: plateGlow 4.5s ease-in-out infinite alternate;
+}
+@keyframes plateGlow { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+#cake-section .plate-shadow { width: 370px; height: 18px; margin-top: 0; border-radius: 50%; background: radial-gradient(ellipse, rgba(0,0,0,0.25) 0%, transparent 65%); filter: blur(8px); }
+
+#cake-section .btn {
+    margin-top: 10px; margin-bottom: 6px;
+    padding: 14px 56px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; font-weight: 600;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--cream);
+    background: linear-gradient(135deg, rgba(196,132,138,0.75), rgba(180,110,118,0.88), rgba(201,160,85,0.65));
+    border: 1px solid rgba(212,175,140,0.22);
+    border-radius: 50px; cursor: pointer;
+    box-shadow: 0 4px 24px rgba(196,132,138,0.25), 0 2px 12px rgba(201,160,85,0.12), inset 0 1px 0 rgba(255,255,255,0.10);
+    transition: all 0.4s ease; z-index: 10;
+    position: relative; overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+#cake-section .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(232,200,104,0.12), transparent); transition: left 0.55s ease; }
+#cake-section .btn:hover::before { left: 100%; }
+#cake-section .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 34px rgba(196,132,138,0.38), 0 4px 18px rgba(201,160,85,0.18), inset 0 1px 0 rgba(255,255,255,0.14); border-color: rgba(232,200,104,0.32); }
+#cake-section .btn:active { transform: translateY(0); }
+
+#cake-section .knife { position: fixed; top: -200px; left: 50%; transform: translateX(-50%); z-index: 50; opacity: 0; pointer-events: none; }
+#cake-section .knife.go { animation: knifeArc 2s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes knifeArc {
+    0% { top: -100px; opacity: 1; transform: translateX(-50%) rotate(-28deg); }
+    32% { top: 68%; opacity: 1; transform: translateX(-50%) rotate(0deg); }
+    52% { top: 80%; opacity: 1; transform: translateX(-50%) rotate(0deg); }
+    72% { top: 80%; opacity: 1; transform: translateX(calc(-50% + 28px)) rotate(3deg); }
+    100% { top: -100px; opacity: 0; transform: translateX(-50%) rotate(-28deg); }
+}
+#cake-section .knife-handle { width: 14px; height: 44px; margin: 0 auto; background: linear-gradient(to right, #5d4037, #795548, #6d4c41, #5d4037); border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+#cake-section .knife-blade { width: 5px; height: 120px; margin: 0 auto; position: relative; background: linear-gradient(to right, #bbb, #f0f0f0, #ddd, #c4c4c4); border-radius: 1px 1px 0 0; box-shadow: 2px 0 10px rgba(0,0,0,0.10); }
+#cake-section .knife-blade::after { content: ''; position: absolute; bottom: -1px; left: -1px; width: 7px; height: 24px; background: linear-gradient(to bottom, #ddd, #bbb); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+
+#cake-section .confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 100; }
+#cake-section .dust { position: absolute; top: -10px; opacity: 0; animation: dustFall linear forwards; }
+@keyframes dustFall {
+    0% { transform: translateY(0) rotate(0) translateX(0); opacity: 0; }
+    6% { opacity: 1; }
+    45% { opacity: 0.7; }
+    100% { transform: translateY(112vh) rotate(720deg) translateX(var(--drift)); opacity: 0; }
+}
+
+#cake-section .ring { position: fixed; top: 82%; left: 50%; width: 0; height: 0; border-radius: 50%; border: 2px solid rgba(201,160,85,0.30); transform: translate(-50%, -50%); z-index: 90; pointer-events: none; opacity: 0; }
+#cake-section .ring.pop { animation: ringPop 1.4s ease-out forwards; }
+@keyframes ringPop {
+    0% { width: 0; height: 0; opacity: 1; border-width: 3px; border-color: rgba(232,200,104,0.5); }
+    100% { width: 700px; height: 700px; opacity: 0; border-width: 0.5px; border-color: rgba(212,175,140,0.1); }
+}
+
+#cake-section .msg {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    color: var(--champagne-glow); text-align: center;
+    z-index: 200; opacity: 0;
+    transition: all 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 0 0 24px rgba(232,200,104,0.45), 0 0 48px rgba(212,175,140,0.22), 0 0 72px rgba(196,132,138,0.10);
+    pointer-events: none; line-height: 1.5;
+}
+#cake-section .msg.reveal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#cake-section .msg .sub { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; letter-spacing: 8px; text-transform: uppercase; display: block; margin-top: 12px; opacity: 0.55; font-weight: 300; color: rgba(212,175,140,0.7); }
+#cake-section .msg .hearts { font-size: 2rem; display: block; margin-top: 16px; animation: heartBob 2.8s ease-in-out infinite; }
+@keyframes heartBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+#cake-section .notes { position: fixed; bottom: 22px; right: 22px; font-size: 1.15rem; z-index: 10; opacity: 0; transition: opacity 0.8s; }
+#cake-section .notes.on { opacity: 1; }
+#cake-section .notes span { display: inline-block; color: rgba(212,175,140,0.45); animation: noteUp 3.2s ease-in-out infinite; }
+#cake-section .notes span:nth-child(2) { animation-delay: 0.7s; }
+#cake-section .notes span:nth-child(3) { animation-delay: 1.4s; }
+@keyframes noteUp {
+    0%,100% { transform: translateY(0) rotate(0); opacity: 0.3; }
+    50% { transform: translateY(-14px) rotate(8deg); opacity: 0.7; }
+}
+
+#cake-section .g-particle { position: fixed; border-radius: 50%; pointer-events: none; z-index: 5; }
+
+#cake-section .footer { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); font-family: 'Cormorant Garamond', serif; font-size: 0.6rem; letter-spacing: 6px; text-transform: uppercase; color: rgba(212,175,140,0.12); z-index: 10; pointer-events: none; }
+
+#cake-section .cake-aura {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 260px;
+    background: radial-gradient(ellipse at 50% 80%, rgba(232,200,104,0.06) 0%, rgba(212,175,140,0.03) 35%, transparent 65%);
+    pointer-events: none; z-index: -1;
+    animation: auraBreath 4s ease-in-out infinite alternate;
+}
+@keyframes auraBreath {
+    0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
 }
